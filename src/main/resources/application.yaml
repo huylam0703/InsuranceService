@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/InsuranceService}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/InsuranceService_db}
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:123456}
   jpa:

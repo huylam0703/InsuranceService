@@ -1,0 +1,87 @@
+package app.project.InsuranceService.controller;
+
+import app.project.InsuranceService.dto.request.UserCreationRequest;
+import app.project.InsuranceService.dto.request.UserUpdateRequest;
+import app.project.InsuranceService.dto.response.ApiResponse;
+import app.project.InsuranceService.dto.response.UserResponse;
+import app.project.InsuranceService.service.User.UserService;
+import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+@Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequestMapping("/users")
+public class UserController {
+    UserService userService;
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<UserResponse>> createUser(@RequestBody @Valid UserCreationRequest request){
+
+        log.info("Create user with username={}", request.getUsername());
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.<UserResponse>builder()
+                        .code(1000)
+                        .result(userService.createUser(request))
+                        .message("User created")
+                        .build());
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiResponse<UserResponse>> getUser(@PathVariable String userId){
+        log.info("Get user with userId={}", userId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<UserResponse>builder()
+                        .code(1000)
+                        .result(userService.getUserById(userId))
+                        .message("User get")
+                        .build());
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUser(){
+        log.info("Get all users");
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<List<UserResponse>>builder()
+                        .code(1000)
+                        .result(userService.getAllUsers())
+                        .message("All users")
+                        .build());
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(@PathVariable String userId,
+                                                                @RequestBody @Valid UserUpdateRequest request){
+        log.info("Update user with userId={}", userId);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(ApiResponse.<UserResponse>builder()
+                        .code(1000)
+                        .result(userService.updateUser(request, userId))
+                        .message("User updated")
+                        .build());
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<ApiResponse<String>> deleteUser(@PathVariable String userId){
+        log.info("Delete user with userId={}", userId);
+        userService.deleteUser(userId);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(ApiResponse.<String>builder()
+                        .code(1000)
+                        .result("User deleted")
+                        .build());
+    }
+}
