@@ -11,3 +11,5 @@ spring:
     hibernate:
       ddl-auto: update
 
+jwt:
+  singerKey: "PC8kxKGhdSmTjsgrnxy6r4qamn8fmrtkexw9EQCa02A="

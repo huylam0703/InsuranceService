@@ -12,6 +12,8 @@ public enum ErrorCode {
     //User
     USER_EXISTS(1001, "username already exists", HttpStatus.BAD_REQUEST),
     USER_NOT_FOUND(1002, "user not found", HttpStatus.NOT_FOUND),
+    USER_NOT_EXISTS(1003, "user not exists", HttpStatus.BAD_REQUEST),
+    UNAUTHENTICATED(1004, "unauthenticated", HttpStatus.UNAUTHORIZED),
     //--
     FIRST_NAME(1011, "The first name should not be left blank", HttpStatus.BAD_REQUEST),
     LAST_NAME(1012, "The last name should not be left blank", HttpStatus.BAD_REQUEST),
