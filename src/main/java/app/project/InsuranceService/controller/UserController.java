@@ -91,4 +91,15 @@ public class UserController {
                         .result("User deleted")
                         .build());
     }
+
+    @GetMapping("/myInfo")
+    public ResponseEntity<ApiResponse<UserResponse>> getMyInfo(){
+        log.info("Get My Info");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<UserResponse>builder()
+                        .code(1000)
+                        .result(userService.getMyInfo())
+                        .message("User get")
+                        .build());
+    }
 }
