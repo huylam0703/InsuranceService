@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,7 +20,7 @@ public class UserResponse {
     @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDate dob;
     String username;
-    String password;
     String email;
     String identityNumber;
+    Set<String> roles;
 }
