@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,6 +52,12 @@ public class UserController {
     @GetMapping
     public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUser(){
         log.info("Get all users");
+
+         var authentication = SecurityContextHolder.getContext().getAuthentication();
+
+         log.info("username: {}", authentication.getName());
+        authentication.getAuthorities().forEach(g -> log.info(g.getAuthority()));
+
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.<List<UserResponse>>builder()
