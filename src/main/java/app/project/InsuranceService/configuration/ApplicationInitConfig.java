@@ -1,7 +1,11 @@
 package app.project.InsuranceService.configuration;
 
+import app.project.InsuranceService.entity.Role;
 import app.project.InsuranceService.entity.User;
-import app.project.InsuranceService.enums.Role;
+
+import app.project.InsuranceService.exception.AppException;
+import app.project.InsuranceService.exception.ErrorCode;
+import app.project.InsuranceService.repository.RoleRepository;
 import app.project.InsuranceService.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +25,17 @@ import java.util.HashSet;
 public class ApplicationInitConfig {
 
     PasswordEncoder passwordEncoder;
+    RoleRepository roleRepository;
+    UserRepository userRepository;
 
     @Bean
     ApplicationRunner applicationRunner(UserRepository userRepository) {
         return args -> {
            if (userRepository.findByUsername("admin").isEmpty()){
-               var roles = new HashSet<String>();
-               roles.add(Role.ADMIN.name());
+               Role adminRole = roleRepository.findById("ADMIN")
+                       .orElseThrow(()-> new AppException(ErrorCode.ROLE_NOT_FOUND));
+               HashSet<Role> roles = new HashSet<>();
+               roles.add(adminRole);
                User user = User.builder()
                        .username("admin")
                        .password(passwordEncoder.encode("admin"))
