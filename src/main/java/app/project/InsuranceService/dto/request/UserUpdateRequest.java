@@ -1,5 +1,6 @@
 package app.project.InsuranceService.dto.request;
 
+import app.project.InsuranceService.entity.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
@@ -9,6 +10,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,4 +34,6 @@ public class UserUpdateRequest {
 
     @Min(value = 12, message = "IDENTITY_NUMBER_UNVALID")
     String identityNumber;
+
+    List<String> roles;
 }

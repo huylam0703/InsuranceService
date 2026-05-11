@@ -1,19 +1,19 @@
 package app.project.InsuranceService.mapper;
 
+import app.project.InsuranceService.dto.request.PermissionRequest;
 import app.project.InsuranceService.dto.request.UserCreationRequest;
 import app.project.InsuranceService.dto.request.UserUpdateRequest;
+import app.project.InsuranceService.dto.response.PermissionResponse;
 import app.project.InsuranceService.dto.response.UserResponse;
+import app.project.InsuranceService.entity.Permission;
 import app.project.InsuranceService.entity.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper {
-    User toUser(UserCreationRequest request);
+public interface PermissionMapper {
+    Permission toPermission(PermissionRequest request);
 
-    UserResponse toUserResponse(User user);
+    PermissionResponse toPermissionResponse(Permission permission);
 
-    @Mapping(target = "roles", ignore = true)
-    void updateUser(UserUpdateRequest request,@MappingTarget User user);
 }

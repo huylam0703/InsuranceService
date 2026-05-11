@@ -3,11 +3,12 @@ package app.project.InsuranceService.service.User.impl;
 import app.project.InsuranceService.dto.request.UserCreationRequest;
 import app.project.InsuranceService.dto.request.UserUpdateRequest;
 import app.project.InsuranceService.dto.response.UserResponse;
+import app.project.InsuranceService.entity.Role;
 import app.project.InsuranceService.entity.User;
-import app.project.InsuranceService.enums.Role;
 import app.project.InsuranceService.exception.AppException;
 import app.project.InsuranceService.exception.ErrorCode;
 import app.project.InsuranceService.mapper.UserMapper;
+import app.project.InsuranceService.repository.RoleRepository;
 import app.project.InsuranceService.repository.UserRepository;
 import app.project.InsuranceService.service.User.UserService;
 import lombok.AccessLevel;
@@ -17,13 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -31,6 +30,7 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserServiceImpl implements UserService {
     UserRepository userRepository;
+    RoleRepository roleRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
 
@@ -45,8 +45,11 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
+        Role userRole = roleRepository.findById("USER")
+                .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
+
+        HashSet<Role> roles = new HashSet<>();
+        roles.add(userRole);
         user.setRoles(roles);
 
         return userMapper.toUserResponse(userRepository.save(user));
@@ -60,7 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('APPROVE_POST')")
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(userMapper::toUserResponse).toList();
@@ -73,6 +76,9 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         userMapper.updateUser(request, user);
+
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
 
         return userMapper.toUserResponse(userRepository.save(user));
     }

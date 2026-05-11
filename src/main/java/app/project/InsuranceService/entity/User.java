@@ -28,6 +28,6 @@ public class User {
     String email;
     String identityNumber;
 
-    @ElementCollection
-    Set<String> roles;
+    @ManyToMany
+    Set<Role> roles;
 }
