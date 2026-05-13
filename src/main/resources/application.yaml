@@ -13,3 +13,5 @@ spring:
 
 jwt:
   singerKey: "PC8kxKGhdSmTjsgrnxy6r4qamn8fmrtkexw9EQCa02A="
+  valid-duration: 3600 # in second
+  refreshable-duration: 360000 # in second
