@@ -2,6 +2,8 @@ package app.project.InsuranceService.controller;
 
 import app.project.InsuranceService.dto.request.AuthenticationRequest;
 import app.project.InsuranceService.dto.request.IntrospectRequest;
+import app.project.InsuranceService.dto.request.LogOutRequest;
+import app.project.InsuranceService.dto.request.RefeshRequest;
 import app.project.InsuranceService.dto.response.ApiResponse;
 import app.project.InsuranceService.dto.response.AuthenticationResponse;
 import app.project.InsuranceService.dto.response.IntrospectResponse;
@@ -50,4 +52,29 @@ public class AuthenticationController {
                         .result(result)
                         .build());
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<Void>> logout(@RequestBody LogOutRequest request)
+            throws ParseException, JOSEException {
+        authenticationService.logOut(request);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<Void>builder()
+                        .code(1000)
+                        .message("Logout successful")
+                        .build());
+    }
+
+    @PostMapping("/refesh")
+    public ResponseEntity<ApiResponse<AuthenticationResponse>> refesh(@RequestBody RefeshRequest request)
+            throws ParseException, JOSEException {
+        var result = authenticationService.refeshToken(request);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<AuthenticationResponse>builder()
+                        .code(1000)
+                        .result(result)
+                        .build());
+    }
+
 }
