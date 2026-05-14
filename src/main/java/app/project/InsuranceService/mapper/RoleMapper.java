@@ -1,10 +1,7 @@
 package app.project.InsuranceService.mapper;
 
-import app.project.InsuranceService.dto.request.PermissionRequest;
-import app.project.InsuranceService.dto.request.RoleRequest;
-import app.project.InsuranceService.dto.response.PermissionResponse;
-import app.project.InsuranceService.dto.response.RoleResponse;
-import app.project.InsuranceService.entity.Permission;
+import app.project.InsuranceService.dto.request.Auth.RoleRequest;
+import app.project.InsuranceService.dto.response.Auth.RoleResponse;
 import app.project.InsuranceService.entity.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

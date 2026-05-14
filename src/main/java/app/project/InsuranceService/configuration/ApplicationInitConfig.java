@@ -26,7 +26,6 @@ public class ApplicationInitConfig {
 
     PasswordEncoder passwordEncoder;
     RoleRepository roleRepository;
-    UserRepository userRepository;
 
     @Bean
     ApplicationRunner applicationRunner(UserRepository userRepository) {

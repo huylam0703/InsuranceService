@@ -1,5 +1,6 @@
-package app.project.InsuranceService.dto.response;
+package app.project.InsuranceService.dto.response.User;
 
+import app.project.InsuranceService.dto.response.Auth.RoleResponse;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

@@ -1,9 +1,9 @@
 package app.project.InsuranceService.controller;
 
-import app.project.InsuranceService.dto.request.UserCreationRequest;
-import app.project.InsuranceService.dto.request.UserUpdateRequest;
-import app.project.InsuranceService.dto.response.ApiResponse;
-import app.project.InsuranceService.dto.response.UserResponse;
+import app.project.InsuranceService.dto.request.User.UserCreationRequest;
+import app.project.InsuranceService.dto.request.User.UserUpdateRequest;
+import app.project.InsuranceService.dto.response.Auth.ApiResponse;
+import app.project.InsuranceService.dto.response.User.UserResponse;
 import app.project.InsuranceService.service.User.UserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;

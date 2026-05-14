@@ -1,11 +1,11 @@
-package app.project.InsuranceService.service.User.impl;
+package app.project.InsuranceService.service.Auth.Impl;
 
-import app.project.InsuranceService.dto.request.PermissionRequest;
-import app.project.InsuranceService.dto.response.PermissionResponse;
+import app.project.InsuranceService.dto.request.Auth.PermissionRequest;
+import app.project.InsuranceService.dto.response.Auth.PermissionResponse;
 import app.project.InsuranceService.entity.Permission;
 import app.project.InsuranceService.mapper.PermissionMapper;
 import app.project.InsuranceService.repository.PermissionRepository;
-import app.project.InsuranceService.service.User.PermissionService;
+import app.project.InsuranceService.service.Auth.PermissionService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -24,6 +24,7 @@ public class PermissionServiceImpl implements PermissionService {
     PermissionMapper permissionMapper;
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public PermissionResponse create(PermissionRequest request) {
         Permission permission = permissionMapper.toPermission(request);
 
@@ -33,6 +34,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<PermissionResponse> getAllPermissions() {
         var permissions = permissionRepository.findAll();
 
@@ -40,6 +42,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(String permission) {
         permissionRepository.deleteById(permission);
     }

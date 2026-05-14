@@ -1,9 +1,9 @@
 package app.project.InsuranceService.controller;
 
-import app.project.InsuranceService.dto.request.PermissionRequest;
-import app.project.InsuranceService.dto.response.ApiResponse;
-import app.project.InsuranceService.dto.response.PermissionResponse;
-import app.project.InsuranceService.service.User.PermissionService;
+import app.project.InsuranceService.dto.request.Auth.PermissionRequest;
+import app.project.InsuranceService.dto.response.Auth.ApiResponse;
+import app.project.InsuranceService.dto.response.Auth.PermissionResponse;
+import app.project.InsuranceService.service.Auth.PermissionService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

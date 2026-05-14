@@ -1,6 +1,6 @@
 package app.project.InsuranceService.configuration;
 
-import app.project.InsuranceService.dto.response.ApiResponse;
+import app.project.InsuranceService.dto.response.Auth.ApiResponse;
 import app.project.InsuranceService.exception.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;

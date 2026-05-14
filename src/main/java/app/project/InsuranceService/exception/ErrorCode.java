@@ -23,6 +23,10 @@ public enum ErrorCode {
     PASSWORD_UNVALID(1014, "password must be least {min} characters", HttpStatus.BAD_REQUEST),
     EMAIL_UNVALID(1015, "email invalid format", HttpStatus.BAD_REQUEST),
     IDENTITY_NUMBER_UNVALID(1016, "identity number must be least {min} characters", HttpStatus.BAD_REQUEST),
+
+    //Auth
+    AUTH_USERNAME(1101, "username should not be left blank", HttpStatus.BAD_REQUEST),
+    AUTH_PASSWORD(1102, "password should not be left blank", HttpStatus.BAD_REQUEST),
     ;
 
 

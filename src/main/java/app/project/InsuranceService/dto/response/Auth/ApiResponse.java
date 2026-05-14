@@ -1,4 +1,4 @@
-package app.project.InsuranceService.dto.response;
+package app.project.InsuranceService.dto.response.Auth;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

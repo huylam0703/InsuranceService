@@ -1,15 +1,16 @@
-package app.project.InsuranceService.service.User.impl;
+package app.project.InsuranceService.service.Auth.Impl;
 
-import app.project.InsuranceService.dto.request.RoleRequest;
-import app.project.InsuranceService.dto.response.RoleResponse;
+import app.project.InsuranceService.dto.request.Auth.RoleRequest;
+import app.project.InsuranceService.dto.response.Auth.RoleResponse;
 import app.project.InsuranceService.mapper.RoleMapper;
 import app.project.InsuranceService.repository.PermissionRepository;
 import app.project.InsuranceService.repository.RoleRepository;
-import app.project.InsuranceService.service.User.RoleService;
+import app.project.InsuranceService.service.Auth.RoleService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -25,6 +26,7 @@ public class RoleServiceImpl implements RoleService {
     RoleMapper roleMapper;
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public RoleResponse create(RoleRequest request) {
         var role = roleMapper.toRole(request);
 
@@ -36,6 +38,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<RoleResponse> getAllRoles() {
         return roleRepository.findAll().stream()
                 .map(roleMapper::toRoleResponse)

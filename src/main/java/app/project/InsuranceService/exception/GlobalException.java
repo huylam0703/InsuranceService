@@ -1,6 +1,6 @@
 package app.project.InsuranceService.exception;
 
-import app.project.InsuranceService.dto.response.ApiResponse;
+import app.project.InsuranceService.dto.response.Auth.ApiResponse;
 import jakarta.validation.ConstraintViolation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

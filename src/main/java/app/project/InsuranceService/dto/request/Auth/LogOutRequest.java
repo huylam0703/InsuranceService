@@ -1,4 +1,4 @@
-package app.project.InsuranceService.dto.request;
+package app.project.InsuranceService.dto.request.Auth;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

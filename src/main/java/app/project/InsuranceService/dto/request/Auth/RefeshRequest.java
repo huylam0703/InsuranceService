@@ -1,4 +1,4 @@
-package app.project.InsuranceService.dto.response;
+package app.project.InsuranceService.dto.request.Auth;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PermissionResponse {
-    String name;
-    String description;
+public class RefeshRequest {
+    String token;
 }
