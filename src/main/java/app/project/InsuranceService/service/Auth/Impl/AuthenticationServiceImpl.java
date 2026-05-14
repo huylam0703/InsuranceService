@@ -1,18 +1,18 @@
-package app.project.InsuranceService.service.User.impl;
+package app.project.InsuranceService.service.Auth.Impl;
 
-import app.project.InsuranceService.dto.request.AuthenticationRequest;
-import app.project.InsuranceService.dto.request.IntrospectRequest;
-import app.project.InsuranceService.dto.request.LogOutRequest;
-import app.project.InsuranceService.dto.request.RefeshRequest;
-import app.project.InsuranceService.dto.response.AuthenticationResponse;
-import app.project.InsuranceService.dto.response.IntrospectResponse;
+import app.project.InsuranceService.dto.request.Auth.AuthenticationRequest;
+import app.project.InsuranceService.dto.request.Auth.IntrospectRequest;
+import app.project.InsuranceService.dto.request.Auth.LogOutRequest;
+import app.project.InsuranceService.dto.request.Auth.RefeshRequest;
+import app.project.InsuranceService.dto.response.Auth.AuthenticationResponse;
+import app.project.InsuranceService.dto.response.Auth.IntrospectResponse;
 import app.project.InsuranceService.entity.InvalidatedToken;
 import app.project.InsuranceService.entity.User;
 import app.project.InsuranceService.exception.AppException;
 import app.project.InsuranceService.exception.ErrorCode;
 import app.project.InsuranceService.repository.InvalidatedTokenRepository;
 import app.project.InsuranceService.repository.UserRepository;
-import app.project.InsuranceService.service.User.AuthenticationService;
+import app.project.InsuranceService.service.Auth.AuthenticationService;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;

@@ -1,7 +1,7 @@
 package app.project.InsuranceService.configuration;
 
-import app.project.InsuranceService.dto.request.IntrospectRequest;
-import app.project.InsuranceService.service.User.AuthenticationService;
+import app.project.InsuranceService.dto.request.Auth.IntrospectRequest;
+import app.project.InsuranceService.service.Auth.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

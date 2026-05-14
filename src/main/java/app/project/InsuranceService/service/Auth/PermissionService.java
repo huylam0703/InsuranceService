@@ -1,7 +1,7 @@
-package app.project.InsuranceService.service.User;
+package app.project.InsuranceService.service.Auth;
 
-import app.project.InsuranceService.dto.request.PermissionRequest;
-import app.project.InsuranceService.dto.response.PermissionResponse;
+import app.project.InsuranceService.dto.request.Auth.PermissionRequest;
+import app.project.InsuranceService.dto.response.Auth.PermissionResponse;
 
 import java.util.List;
 

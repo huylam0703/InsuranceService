@@ -1,14 +1,15 @@
 package app.project.InsuranceService.controller;
 
-import app.project.InsuranceService.dto.request.AuthenticationRequest;
-import app.project.InsuranceService.dto.request.IntrospectRequest;
-import app.project.InsuranceService.dto.request.LogOutRequest;
-import app.project.InsuranceService.dto.request.RefeshRequest;
-import app.project.InsuranceService.dto.response.ApiResponse;
-import app.project.InsuranceService.dto.response.AuthenticationResponse;
-import app.project.InsuranceService.dto.response.IntrospectResponse;
-import app.project.InsuranceService.service.User.AuthenticationService;
+import app.project.InsuranceService.dto.request.Auth.AuthenticationRequest;
+import app.project.InsuranceService.dto.request.Auth.IntrospectRequest;
+import app.project.InsuranceService.dto.request.Auth.LogOutRequest;
+import app.project.InsuranceService.dto.request.Auth.RefeshRequest;
+import app.project.InsuranceService.dto.response.Auth.ApiResponse;
+import app.project.InsuranceService.dto.response.Auth.AuthenticationResponse;
+import app.project.InsuranceService.dto.response.Auth.IntrospectResponse;
+import app.project.InsuranceService.service.Auth.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,12 +27,12 @@ import java.text.ParseException;
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequestMapping("auth")
+@RequestMapping("/auth")
 public class AuthenticationController {
     AuthenticationService authenticationService;
 
     @PostMapping("/token")
-    public ResponseEntity<ApiResponse<AuthenticationResponse>> authenticate(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<ApiResponse<AuthenticationResponse>> authenticate(@RequestBody @Valid AuthenticationRequest request) {
         var result = authenticationService.authenticate(request);
 
         return ResponseEntity.status(HttpStatus.OK)

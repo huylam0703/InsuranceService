@@ -1,8 +1,8 @@
 package app.project.InsuranceService.service.User.impl;
 
-import app.project.InsuranceService.dto.request.UserCreationRequest;
-import app.project.InsuranceService.dto.request.UserUpdateRequest;
-import app.project.InsuranceService.dto.response.UserResponse;
+import app.project.InsuranceService.dto.request.User.UserCreationRequest;
+import app.project.InsuranceService.dto.request.User.UserUpdateRequest;
+import app.project.InsuranceService.dto.response.User.UserResponse;
 import app.project.InsuranceService.entity.Role;
 import app.project.InsuranceService.entity.User;
 import app.project.InsuranceService.exception.AppException;
@@ -56,20 +56,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PostAuthorize("returnObject.username == authentication.name")
+    @PreAuthorize("hasRole('ADMIN')")
     public UserResponse getUserById(String userId) {
         return userMapper.toUserResponse(userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND)));
     }
 
     @Override
-    @PreAuthorize("hasAuthority('APPROVE_POST')")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(userMapper::toUserResponse).toList();
     }
 
     @Override
+    @PreAuthorize("hasRole('USER')")
     public UserResponse updateUser(UserUpdateRequest request, String userId) {
 
         User user = userRepository.findById(userId)
@@ -84,11 +85,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(String userId) {
         userRepository.deleteById(userId);
     }
 
     @Override
+    @PostAuthorize("returnObject.username == authentication.name")
     public UserResponse getMyInfo() {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();

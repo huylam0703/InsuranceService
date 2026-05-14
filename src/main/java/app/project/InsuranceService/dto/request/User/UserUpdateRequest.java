@@ -1,11 +1,14 @@
-package app.project.InsuranceService.dto.request;
+package app.project.InsuranceService.dto.request.User;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,7 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserCreationRequest {
+public class UserUpdateRequest {
 
     @NotBlank(message = "FIRST_NAME")
     String firstName;
@@ -24,15 +27,11 @@ public class UserCreationRequest {
     @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDate dob;
 
-    @Size(min = 6, message = "USERNAME_UNVALID")
-    String username;
-
-    @Size(min = 8,message = "PASSWORD_UNVALID")
-    String password;
-
     @Email(message = "EMAIL_UNVALID")
     String email;
 
     @Min(value = 12, message = "IDENTITY_NUMBER_UNVALID")
     String identityNumber;
+
+    List<String> roles;
 }
