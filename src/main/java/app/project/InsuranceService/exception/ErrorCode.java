@@ -27,6 +27,11 @@ public enum ErrorCode {
     //Auth
     AUTH_USERNAME(1101, "username should not be left blank", HttpStatus.BAD_REQUEST),
     AUTH_PASSWORD(1102, "password should not be left blank", HttpStatus.BAD_REQUEST),
+
+    //Policy
+    NAME_POLICY_EXISTS(1201,"name policy already exists", HttpStatus.BAD_REQUEST),
+    POLICE_CODE_EXISTS(1202,"policy code already exists", HttpStatus.BAD_REQUEST),
+    POLICE_NOT_FOUND(1203,"policy not found", HttpStatus.NOT_FOUND),
     ;
 
 
