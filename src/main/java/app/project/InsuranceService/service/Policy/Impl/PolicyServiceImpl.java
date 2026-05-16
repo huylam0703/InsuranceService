@@ -38,7 +38,7 @@ public class PolicyServiceImpl implements PolicyService {
 
             String policeCode =  generatePolicyCode(request.getPolicyType());
             if(policyRepository.existsByPolicyCode(policeCode))
-                throw new AppException(ErrorCode.POLICE_CODE_EXISTS);
+                throw new AppException(ErrorCode.POLICY_CODE_EXISTS);
             else
                 policy.setPolicyCode(policeCode);
 
@@ -50,7 +50,7 @@ public class PolicyServiceImpl implements PolicyService {
     @Override
     public PolicyResponse getPolicy(String policyId) {
         return policyMapper.toPolicyResponse(policyRepository.findById(policyId)
-                .orElseThrow(()-> new AppException(ErrorCode.POLICE_NOT_FOUND)));
+                .orElseThrow(()-> new AppException(ErrorCode.POLICY_NOT_FOUND)));
     }
 
     @Override
@@ -63,7 +63,7 @@ public class PolicyServiceImpl implements PolicyService {
     @PreAuthorize("hasRole('ADMIN')")
     public PolicyResponse updatePolicy(PolicyUpdateRequest request, String policeId) {
         Policy policy = policyRepository.findById(policeId)
-                .orElseThrow(()-> new AppException(ErrorCode.POLICE_NOT_FOUND));
+                .orElseThrow(()-> new AppException(ErrorCode.POLICY_NOT_FOUND));
 
         policyMapper.updatePolicy(request, policy);
 
