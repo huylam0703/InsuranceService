@@ -30,8 +30,11 @@ public enum ErrorCode {
 
     //Policy
     NAME_POLICY_EXISTS(1201,"name policy already exists", HttpStatus.BAD_REQUEST),
-    POLICE_CODE_EXISTS(1202,"policy code already exists", HttpStatus.BAD_REQUEST),
-    POLICE_NOT_FOUND(1203,"policy not found", HttpStatus.NOT_FOUND),
+    POLICY_CODE_EXISTS(1202,"policy code already exists", HttpStatus.BAD_REQUEST),
+    POLICY_NOT_FOUND(1203,"policy not found", HttpStatus.NOT_FOUND),
+
+    //contract
+    CONTRACT_NOT_FOUND(1301,"Contract not found", HttpStatus.NOT_FOUND),
     ;
 
 

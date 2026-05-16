@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PostAuthorize("returnObject.username == authentication.name")
+    @PreAuthorize("isAuthenticated()")
     public UserResponse getMyInfo() {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
