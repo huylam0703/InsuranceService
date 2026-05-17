@@ -36,4 +36,6 @@ public class ContractResponse {
     LocalDate startDate;
 
     LocalDate endDate;
+
+    Object detail;
 }
