@@ -1,16 +1,28 @@
 package app.project.InsuranceService.service.Contract.Impl;
 
-import app.project.InsuranceService.dto.request.Contract.ContractCancelRequest;
 import app.project.InsuranceService.dto.request.Contract.ContractCreationRequest;
 import app.project.InsuranceService.dto.response.Contract.ContractResponse;
+import app.project.InsuranceService.dto.response.ContractDetails.HealthContractDetailResponse;
+import app.project.InsuranceService.dto.response.ContractDetails.LifeContractDetailResponse;
+import app.project.InsuranceService.dto.response.ContractDetails.TravelContractDetailResponse;
+import app.project.InsuranceService.dto.response.ContractDetails.VehicleContractDetailResponse;
 import app.project.InsuranceService.entity.Contract;
+import app.project.InsuranceService.entity.DetailsContractType.HealthContractDetails;
+import app.project.InsuranceService.entity.DetailsContractType.LifeContractDetails;
+import app.project.InsuranceService.entity.DetailsContractType.TravelContractDetails;
+import app.project.InsuranceService.entity.DetailsContractType.VehicleContractDetails;
 import app.project.InsuranceService.entity.Policy;
 import app.project.InsuranceService.entity.User;
 import app.project.InsuranceService.enums.ContractStatus;
 import app.project.InsuranceService.enums.PaymentStatus;
 import app.project.InsuranceService.exception.AppException;
 import app.project.InsuranceService.exception.ErrorCode;
+import app.project.InsuranceService.mapper.ContractDetailsMapper;
 import app.project.InsuranceService.mapper.ContractMapper;
+import app.project.InsuranceService.repository.ContractDetails.HealthRepository;
+import app.project.InsuranceService.repository.ContractDetails.LifeRepository;
+import app.project.InsuranceService.repository.ContractDetails.TravelRepository;
+import app.project.InsuranceService.repository.ContractDetails.VehicleRepository;
 import app.project.InsuranceService.repository.ContractRepository;
 import app.project.InsuranceService.repository.PolicyRepository;
 import app.project.InsuranceService.repository.UserRepository;
@@ -39,6 +51,12 @@ public class ContractServiceImpl implements ContractService {
     UserRepository userRepository;
     PolicyRepository policyRepository;
 
+    ContractDetailsMapper contractDetailsMapper;
+    HealthRepository healthRepository;
+    LifeRepository lifeRepository;
+    VehicleRepository vehicleRepository;
+    TravelRepository travelRepository;
+
     @Override
     @PreAuthorize("hasRole('USER')")
     public ContractResponse purchaseContract(ContractCreationRequest request) {
@@ -61,7 +79,16 @@ public class ContractServiceImpl implements ContractService {
                 .build();
         Contract savedContract = contractRepository.save(contract);
 
-        return contractMapper.toContractResponse(savedContract);
+        ContractResponse response = contractMapper.toContractResponse(savedContract);
+
+        switch (policy.getPolicyType()) {
+            case HEALTH -> response.setDetail(createHealthDetail(savedContract, request));
+            case LIFE -> response.setDetail(createLifeDetail(savedContract, request));
+            case VEHICLE -> response.setDetail(createVehicleDetail(savedContract, request));
+            case TRAVEL -> response.setDetail(createTravelDetail(savedContract, request));
+        }
+
+        return response;
     }
 
     @Override
@@ -206,5 +233,106 @@ public class ContractServiceImpl implements ContractService {
 
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTS));
+    }
+
+    private HealthContractDetailResponse createHealthDetail(
+            Contract contract,
+            ContractCreationRequest request
+    ) {
+        if (request.getHealthDetail() == null) {
+            throw new AppException(ErrorCode.HEALTH_DETAIL_REQUIRED);
+        }
+
+        HealthContractDetails detail = HealthContractDetails.builder()
+                .contract(contract)
+                .heightCm(request.getHealthDetail().getHeightCm())
+                .weightKg(request.getHealthDetail().getWeightKg())
+                .bloodType(request.getHealthDetail().getBloodType())
+                .medicalHistory(request.getHealthDetail().getMedicalHistory())
+                .allergies(request.getHealthDetail().getAllergies())
+                .smoking(request.getHealthDetail().getSmoking())
+                .alcoholUse(request.getHealthDetail().getAlcoholUse())
+                .build();
+
+        HealthContractDetails savedDetail =
+                healthRepository.save(detail);
+
+        return contractDetailsMapper.toHealthResponse(savedDetail);
+    }
+
+    private LifeContractDetailResponse createLifeDetail(
+            Contract contract,
+            ContractCreationRequest request
+    ) {
+        if (request.getLifeDetail() == null) {
+            throw new AppException(ErrorCode.LIFE_DETAIL_REQUIRED);
+        }
+
+        LifeContractDetails detail = LifeContractDetails.builder()
+                .contract(contract)
+                .occupation(request.getLifeDetail().getOccupation())
+                .annualIncome(request.getLifeDetail().getAnnualIncome())
+                .beneficiaryName(request.getLifeDetail().getBeneficiaryName())
+                .beneficiaryRelationship(request.getLifeDetail().getBeneficiaryRelationship())
+                .beneficiaryPhone(request.getLifeDetail().getBeneficiaryPhone())
+                .medicalHistory(request.getLifeDetail().getMedicalHistory())
+                .smoking(request.getLifeDetail().getSmoking())
+                .build();
+
+        LifeContractDetails savedDetail =
+                lifeRepository.save(detail);
+
+        return contractDetailsMapper.toLifeResponse(savedDetail);
+    }
+
+    private VehicleContractDetailResponse createVehicleDetail(
+            Contract contract,
+            ContractCreationRequest request
+    ) {
+        if (request.getVehicleDetail() == null) {
+            throw new AppException(ErrorCode.VEHICLE_DETAIL_REQUIRED);
+        }
+
+        VehicleContractDetails detail = VehicleContractDetails.builder()
+                .contract(contract)
+                .vehicleType(request.getVehicleDetail().getVehicleType())
+                .licensePlate(request.getVehicleDetail().getLicensePlate())
+                .brand(request.getVehicleDetail().getBrand())
+                .model(request.getVehicleDetail().getModel())
+                .manufactureYear(request.getVehicleDetail().getManufactureYear())
+                .chassisNumber(request.getVehicleDetail().getChassisNumber())
+                .engineNumber(request.getVehicleDetail().getEngineNumber())
+                .vehicleImageUrl(request.getVehicleDetail().getVehicleImageUrl())
+                .build();
+
+        VehicleContractDetails savedDetail =
+                vehicleRepository.save(detail);
+
+        return contractDetailsMapper.toVehicleResponse(savedDetail);
+    }
+
+    private TravelContractDetailResponse createTravelDetail(
+            Contract contract,
+            ContractCreationRequest request
+    ) {
+        if (request.getTravelDetail() == null) {
+            throw new AppException(ErrorCode.TRAVEL_DETAIL_REQUIRED);
+        }
+
+        TravelContractDetails detail = TravelContractDetails.builder()
+                .contract(contract)
+                .destinationCountry(request.getTravelDetail().getDestinationCountry())
+                .departureDate(request.getTravelDetail().getDepartureDate())
+                .returnDate(request.getTravelDetail().getReturnDate())
+                .passportNumber(request.getTravelDetail().getPassportNumber())
+                .travelPurpose(request.getTravelDetail().getTravelPurpose())
+                .emergencyContactName(request.getTravelDetail().getEmergencyContactName())
+                .emergencyContactPhone(request.getTravelDetail().getEmergencyContactPhone())
+                .build();
+
+        TravelContractDetails savedDetail =
+                travelRepository.save(detail);
+
+        return contractDetailsMapper.toTravelResponse(savedDetail);
     }
 }

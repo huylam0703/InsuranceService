@@ -35,6 +35,14 @@ public enum ErrorCode {
 
     //contract
     CONTRACT_NOT_FOUND(1301,"Contract not found", HttpStatus.NOT_FOUND),
+    HEALTH_DETAIL_REQUIRED(1302,"health detail required", HttpStatus.BAD_REQUEST),
+    LIFE_DETAIL_REQUIRED(1303,"life detail required", HttpStatus.BAD_REQUEST),
+    VEHICLE_DETAIL_REQUIRED(1304,"vehicle detail required", HttpStatus.BAD_REQUEST),
+    TRAVEL_DETAIL_REQUIRED(1305, "travel detail required", HttpStatus.BAD_REQUEST),
+    HEALTH_DETAIL_NOT_FOUND(1306,"health detail not found", HttpStatus.NOT_FOUND),
+    LIFE_DETAIL_NOT_FOUND(1307,"life detail not found", HttpStatus.NOT_FOUND),
+    VEHICLE_NOT_FOUND(1308,"vehicle not found", HttpStatus.NOT_FOUND),
+    TRAVEL_NOT_FOUND(1309,"travel not found", HttpStatus.NOT_FOUND),
     ;
 
 
