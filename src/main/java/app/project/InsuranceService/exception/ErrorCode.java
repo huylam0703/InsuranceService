@@ -41,8 +41,8 @@ public enum ErrorCode {
     TRAVEL_DETAIL_REQUIRED(1305, "travel detail required", HttpStatus.BAD_REQUEST),
     HEALTH_DETAIL_NOT_FOUND(1306,"health detail not found", HttpStatus.NOT_FOUND),
     LIFE_DETAIL_NOT_FOUND(1307,"life detail not found", HttpStatus.NOT_FOUND),
-    VEHICLE_NOT_FOUND(1308,"vehicle not found", HttpStatus.NOT_FOUND),
-    TRAVEL_NOT_FOUND(1309,"travel not found", HttpStatus.NOT_FOUND),
+    VEHICLE_DETAIL_NOT_FOUND(1308,"vehicle not found", HttpStatus.NOT_FOUND),
+    TRAVEL_DETAIL_NOT_FOUND(1309,"travel not found", HttpStatus.NOT_FOUND),
     ;
 
 

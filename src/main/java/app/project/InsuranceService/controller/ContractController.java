@@ -12,9 +12,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -25,9 +28,11 @@ import java.util.List;
 public class ContractController {
     ContractService contractService;
 
-    @PostMapping("/purchase")
+    @PostMapping(value = "/purchase",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<ContractResponse>> purchaseContract
-            (@RequestBody @Valid ContractCreationRequest request){
+            (@RequestPart("request") @Valid ContractCreationRequest request,
+             @RequestPart(value = "vehicleImage", required = false) MultipartFile vehicleImage) throws IOException {
 
         log.info("Request to purchase contract");
 
@@ -35,7 +40,7 @@ public class ContractController {
                 .body(ApiResponse.<ContractResponse>builder()
                         .code(1000)
                         .message("Purchase contract")
-                        .result(contractService.purchaseContract(request))
+                        .result(contractService.purchaseContract(request, vehicleImage))
                         .build());
     }
 

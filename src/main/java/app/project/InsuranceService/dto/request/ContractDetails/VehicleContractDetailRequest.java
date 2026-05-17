@@ -24,5 +24,4 @@ public class VehicleContractDetailRequest {
 
     String engineNumber;
 
-    String vehicleImageUrl;
 }
