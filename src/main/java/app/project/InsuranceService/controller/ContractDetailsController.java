@@ -2,6 +2,9 @@ package app.project.InsuranceService.controller;
 
 import app.project.InsuranceService.dto.response.Auth.ApiResponse;
 import app.project.InsuranceService.dto.response.ContractDetails.HealthContractDetailResponse;
+import app.project.InsuranceService.dto.response.ContractDetails.LifeContractDetailResponse;
+import app.project.InsuranceService.dto.response.ContractDetails.TravelContractDetailResponse;
+import app.project.InsuranceService.dto.response.ContractDetails.VehicleContractDetailResponse;
 import app.project.InsuranceService.service.ContractDetails.ContractDetailsService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,42 @@ public class ContractDetailsController {
                         .code(1000)
                         .message("get health contract detail successfully")
                         .result(contractDetailsService.getHealthContractDetail(healthId))
+                        .build());
+    }
+
+    @GetMapping("/life/{lifeId}")
+    public ResponseEntity<ApiResponse<LifeContractDetailResponse>> getLifeContractDetail(@PathVariable String lifeId) {
+        log.info("get life contract detail by id: {}", lifeId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<LifeContractDetailResponse>builder()
+                        .code(1000)
+                        .message("get health contract detail successfully")
+                        .result(contractDetailsService.getLifeContractDetail(lifeId))
+                        .build());
+    }
+
+    @GetMapping("/travel/{travelId}")
+    public ResponseEntity<ApiResponse<TravelContractDetailResponse>> getTravelContractDetail(@PathVariable String travelId) {
+        log.info("get travel contract detail by id: {}", travelId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<TravelContractDetailResponse>builder()
+                        .code(1000)
+                        .message("get health contract detail successfully")
+                        .result(contractDetailsService.getTravelContractDetail(travelId))
+                        .build());
+    }
+
+    @GetMapping("/vehicle/{vehicleId}")
+    public ResponseEntity<ApiResponse<VehicleContractDetailResponse>> getVehicleContractDetail(@PathVariable String vehicleId) {
+        log.info("get vehicle contract detail by id: {}", vehicleId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<VehicleContractDetailResponse>builder()
+                        .code(1000)
+                        .message("get health contract detail successfully")
+                        .result(contractDetailsService.getVehicleContractDetail(vehicleId))
                         .build());
     }
 }

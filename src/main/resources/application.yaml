@@ -19,3 +19,8 @@ jwt:
   singerKey: "PC8kxKGhdSmTjsgrnxy6r4qamn8fmrtkexw9EQCa02A="
   valid-duration: 3600 # in second
   refreshable-duration: 360000 # in second
+
+cloudinary:
+  cloud-name: dcpj8cfng
+  api-key:  918924966822386
+  api-secret: AgeAnoSbgJibSGcPeAhUl_-CPEI
