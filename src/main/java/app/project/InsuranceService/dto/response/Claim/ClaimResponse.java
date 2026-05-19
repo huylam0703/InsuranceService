@@ -1,5 +1,6 @@
 package app.project.InsuranceService.dto.response.Claim;
 
+import app.project.InsuranceService.dto.response.ClaimDocument.ClaimDocumentResponse;
 import app.project.InsuranceService.enums.ClaimStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -7,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -52,4 +54,6 @@ public class ClaimResponse {
     LocalDateTime createdAt;
 
     LocalDateTime updatedAt;
+
+    List<ClaimDocumentResponse> documents;
 }
