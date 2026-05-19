@@ -3,6 +3,7 @@ package app.project.InsuranceService.service.Claim.Impl;
 import app.project.InsuranceService.dto.request.Claim.ClaimCreationRequest;
 import app.project.InsuranceService.dto.request.Claim.ClaimAdminUpdateRequest;
 import app.project.InsuranceService.dto.response.Claim.ClaimResponse;
+import app.project.InsuranceService.dto.response.ClaimDocument.ClaimDocumentResponse;
 import app.project.InsuranceService.entity.Claim;
 import app.project.InsuranceService.entity.Contract;
 import app.project.InsuranceService.entity.User;
@@ -10,7 +11,9 @@ import app.project.InsuranceService.enums.ClaimStatus;
 import app.project.InsuranceService.enums.ContractStatus;
 import app.project.InsuranceService.exception.AppException;
 import app.project.InsuranceService.exception.ErrorCode;
+import app.project.InsuranceService.mapper.ClaimDocumentMapper;
 import app.project.InsuranceService.mapper.ClaimMapper;
+import app.project.InsuranceService.repository.ClaimDocumentRepository;
 import app.project.InsuranceService.repository.ClaimRepository;
 import app.project.InsuranceService.repository.ContractRepository;
 import app.project.InsuranceService.repository.UserRepository;
@@ -40,6 +43,8 @@ public class ClaimServiceImpl implements ClaimService {
     ClaimRepository claimRepository;
     ContractRepository contractRepository;
     UserRepository userRepository;
+    ClaimDocumentRepository claimDocumentRepository;
+    ClaimDocumentMapper claimDocumentMapper;
 
 
     @Override
@@ -106,7 +111,16 @@ public class ClaimServiceImpl implements ClaimService {
             throw new AppException(ErrorCode.UNAUTHORIZED);
         }
 
-        return claimMapper.toClaimResponse(claim);
+        ClaimResponse claimResponse = claimMapper.toClaimResponse(claim);
+
+        claimResponse.setDocuments(
+                claimDocumentRepository.findByClaim(claim)
+                        .stream()
+                        .map(claimDocumentMapper::toClaimDocumentResponse)
+                        .toList()
+        );
+
+        return claimResponse;
     }
 
     @Override
@@ -228,6 +242,7 @@ public class ClaimServiceImpl implements ClaimService {
                 .orElseThrow(()-> new AppException(ErrorCode.CLAIM_NOT_FOUND));
 
         claim.setUpdatedAt(LocalDateTime.now());
+        claim.setClosedAt(LocalDateTime.now());
 
         claimMapper.updateClaim(request, claim);
 

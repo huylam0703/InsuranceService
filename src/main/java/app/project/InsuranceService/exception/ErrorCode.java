@@ -122,6 +122,10 @@ public enum ErrorCode {
     STATUS_REQUIRED(1510, "Status is required", HttpStatus.BAD_REQUEST),
     APPROVED_AMOUNT_INVALID(1511, "Approved amount must be greater than or equal to 0", HttpStatus.BAD_REQUEST),
     REJECTION_REASON_TOO_LONG(1512, "Rejection reason must not exceed 2000 characters", HttpStatus.BAD_REQUEST),
+    CLAIM_CLOSED(1513, "Claim closed", HttpStatus.BAD_REQUEST),
+    FILE_UPLOAD_FAILED(1514, "file upload fail", HttpStatus.BAD_REQUEST),
+    INVALID_FILE_TYPE(1515, "file type is invalid", HttpStatus.BAD_REQUEST),
+    CLAIM_DOCUMENT_NOT_FOUND(1516, "Claim document not found", HttpStatus.BAD_REQUEST),
     ;
 
 
