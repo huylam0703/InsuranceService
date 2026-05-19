@@ -2,6 +2,7 @@ package app.project.InsuranceService.controller;
 
 import app.project.InsuranceService.dto.request.Claim.ClaimAdminUpdateRequest;
 import app.project.InsuranceService.dto.request.Claim.ClaimCreationRequest;
+import app.project.InsuranceService.dto.request.Claim.ClaimUserUpdateRequest;
 import app.project.InsuranceService.dto.response.Auth.ApiResponse;
 import app.project.InsuranceService.dto.response.Claim.ClaimResponse;
 import app.project.InsuranceService.enums.ClaimStatus;
@@ -154,6 +155,19 @@ public class ClaimController {
                         .code(1000)
                         .message("adim Paid Claim success")
                         .result(claimService.adminPaidClaim(request, claimId))
+                        .build());
+    }
+
+    @PutMapping("/{claimId}")
+    public ResponseEntity<ApiResponse<ClaimResponse>> userUpdateClaim(@RequestBody @Valid ClaimUserUpdateRequest request,
+                                                                      @PathVariable String claimId) {
+        log.info("userUpdateClaim claim request: {}", claimId);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(ApiResponse.<ClaimResponse>builder()
+                        .code(1000)
+                        .message("update claim success")
+                        .result(claimService.userUpdateClaim(request, claimId))
                         .build());
     }
 }
