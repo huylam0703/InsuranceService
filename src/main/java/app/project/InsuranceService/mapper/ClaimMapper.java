@@ -2,6 +2,7 @@ package app.project.InsuranceService.mapper;
 
 import app.project.InsuranceService.dto.request.Claim.ClaimAdminUpdateRequest;
 import app.project.InsuranceService.dto.request.Claim.ClaimCreationRequest;
+import app.project.InsuranceService.dto.request.Claim.ClaimUserUpdateRequest;
 import app.project.InsuranceService.dto.response.Claim.ClaimResponse;
 import app.project.InsuranceService.entity.Claim;
 import org.mapstruct.Mapper;
@@ -21,4 +22,6 @@ public interface ClaimMapper {
     ClaimResponse toClaimResponse(Claim claim);
 
     void updateClaim(ClaimAdminUpdateRequest request, @MappingTarget Claim claim);
+
+    void userUpdateClaim(ClaimUserUpdateRequest request, @MappingTarget Claim claim);
 }

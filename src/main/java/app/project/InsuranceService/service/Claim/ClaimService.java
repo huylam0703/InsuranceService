@@ -2,6 +2,7 @@ package app.project.InsuranceService.service.Claim;
 
 import app.project.InsuranceService.dto.request.Claim.ClaimAdminUpdateRequest;
 import app.project.InsuranceService.dto.request.Claim.ClaimCreationRequest;
+import app.project.InsuranceService.dto.request.Claim.ClaimUserUpdateRequest;
 import app.project.InsuranceService.dto.response.Claim.ClaimResponse;
 import app.project.InsuranceService.enums.ClaimStatus;
 
@@ -29,4 +30,6 @@ public interface ClaimService {
     ClaimResponse adminRejectedClaim(ClaimAdminUpdateRequest request, String claimId);
 
     ClaimResponse adminPaidClaim(ClaimAdminUpdateRequest request, String claimId);
+
+    ClaimResponse userUpdateClaim(ClaimUserUpdateRequest request, String claimId);
 }

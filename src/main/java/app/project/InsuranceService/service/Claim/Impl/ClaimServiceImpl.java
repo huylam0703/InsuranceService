@@ -2,6 +2,7 @@ package app.project.InsuranceService.service.Claim.Impl;
 
 import app.project.InsuranceService.dto.request.Claim.ClaimCreationRequest;
 import app.project.InsuranceService.dto.request.Claim.ClaimAdminUpdateRequest;
+import app.project.InsuranceService.dto.request.Claim.ClaimUserUpdateRequest;
 import app.project.InsuranceService.dto.response.Claim.ClaimResponse;
 import app.project.InsuranceService.dto.response.ClaimDocument.ClaimDocumentResponse;
 import app.project.InsuranceService.entity.Claim;
@@ -259,6 +260,17 @@ public class ClaimServiceImpl implements ClaimService {
         claim.setClosedAt(LocalDateTime.now());
 
         claimMapper.updateClaim(request, claim);
+
+        return claimMapper.toClaimResponse(claim);
+    }
+
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    public ClaimResponse userUpdateClaim(ClaimUserUpdateRequest request, String claimId) {
+        Claim claim = claimRepository.findById(claimId)
+                .orElseThrow(()-> new AppException(ErrorCode.CLAIM_NOT_FOUND));
+
+        claimMapper.userUpdateClaim(request, claim);
 
         return claimMapper.toClaimResponse(claim);
     }
