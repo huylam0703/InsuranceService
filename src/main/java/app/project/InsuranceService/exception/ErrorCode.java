@@ -89,6 +89,8 @@ public enum ErrorCode {
     ENGINE_NUMBER_VEHICLE(1349, "Engine number is required", HttpStatus.BAD_REQUEST),
     IS_MANUFACTURE_YEAR_VALID(1350, "Manufacture year cannot be in the future", HttpStatus.BAD_REQUEST),
 
+    CONTRACT_NOT_ACTIVE(1360, "Contract is not active", HttpStatus.BAD_REQUEST),
+
     //Policy
     POLICY_NAME(1400, "Policy name is required", HttpStatus.BAD_REQUEST),
     POLICY_TYPE(1401, "Policy type is required", HttpStatus.BAD_REQUEST),
@@ -104,6 +106,22 @@ public enum ErrorCode {
     CLAIM_LIMIT_MIN(1411, "Claim limit must be at least 1", HttpStatus.BAD_REQUEST),
     CLAIM_LIMIT_MAX(1412, "Claim limit must not exceed 600", HttpStatus.BAD_REQUEST),
     IS_PREMIUM_VALID(1413, "Premium amount must not exceed coverage amount", HttpStatus.BAD_REQUEST),
+
+    //Claim
+    CLAIM_AMOUNT_EXCEED_REMAINING_COVERAGE(1500, "amount claim exceed remaining coverage", HttpStatus.BAD_REQUEST),
+    INVALID_INCIDENT_DATE(1501, "incident date invalid", HttpStatus.BAD_REQUEST),
+    CLAIM_NOT_FOUND(1502, "claim not found", HttpStatus.NOT_FOUND),
+
+    CONTRACT_ID_REQUIRED(1503, "Contract id is required", HttpStatus.BAD_REQUEST),
+    TITLE_REQUIRED(1504, "Title is required", HttpStatus.BAD_REQUEST),
+    DESCRIPTION_REQUIRED(1505, "Description is required", HttpStatus.BAD_REQUEST),
+    INCIDENT_DATE_REQUIRED(1506, "Incident date is required", HttpStatus.BAD_REQUEST),
+    INCIDENT_DATE_INVALID(1507, "Incident date cannot be in the future", HttpStatus.BAD_REQUEST),
+    CLAIM_AMOUNT_REQUIRED(1508, "Claim amount is required", HttpStatus.BAD_REQUEST),
+    CLAIM_AMOUNT_INVALID(1509, "Claim amount must be greater than 0", HttpStatus.BAD_REQUEST),
+    STATUS_REQUIRED(1510, "Status is required", HttpStatus.BAD_REQUEST),
+    APPROVED_AMOUNT_INVALID(1511, "Approved amount must be greater than or equal to 0", HttpStatus.BAD_REQUEST),
+    REJECTION_REASON_TOO_LONG(1512, "Rejection reason must not exceed 2000 characters", HttpStatus.BAD_REQUEST),
     ;
 
 
