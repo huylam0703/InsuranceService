@@ -126,6 +126,8 @@ public enum ErrorCode {
     FILE_UPLOAD_FAILED(1514, "file upload fail", HttpStatus.BAD_REQUEST),
     INVALID_FILE_TYPE(1515, "file type is invalid", HttpStatus.BAD_REQUEST),
     CLAIM_DOCUMENT_NOT_FOUND(1516, "Claim document not found", HttpStatus.BAD_REQUEST),
+    COMMENT_TOO_LONG(1517, "Comments cannot exceed 2000 words", HttpStatus.BAD_REQUEST),
+    INVALID_CLAIM_STATUS(1518, "claim status is invalid", HttpStatus.BAD_REQUEST),
     ;
 
 
