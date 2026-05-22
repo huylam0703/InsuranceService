@@ -8,6 +8,7 @@ import app.project.InsuranceService.dto.response.ClaimDocument.ClaimDocumentResp
 import app.project.InsuranceService.entity.Claim;
 import app.project.InsuranceService.entity.Contract;
 import app.project.InsuranceService.entity.User;
+import app.project.InsuranceService.enums.ClaimActionType;
 import app.project.InsuranceService.enums.ClaimStatus;
 import app.project.InsuranceService.enums.ContractStatus;
 import app.project.InsuranceService.exception.AppException;
@@ -19,6 +20,7 @@ import app.project.InsuranceService.repository.ClaimRepository;
 import app.project.InsuranceService.repository.ContractRepository;
 import app.project.InsuranceService.repository.UserRepository;
 import app.project.InsuranceService.service.Claim.ClaimService;
+import app.project.InsuranceService.service.ClaimReview.ClaimReviewService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -46,6 +48,7 @@ public class ClaimServiceImpl implements ClaimService {
     UserRepository userRepository;
     ClaimDocumentRepository claimDocumentRepository;
     ClaimDocumentMapper claimDocumentMapper;
+    ClaimReviewService claimReviewService;
 
 
     @Override
@@ -200,10 +203,20 @@ public class ClaimServiceImpl implements ClaimService {
         Claim claim = claimRepository.findById(claimId)
                 .orElseThrow(()-> new AppException(ErrorCode.CLAIM_NOT_FOUND));
 
+        ClaimStatus previousStatus = claim.getStatus();
+
         claim.setStatus(ClaimStatus.UNDER_REVIEW);
         claim.setUpdatedAt(LocalDateTime.now());
 
         Claim claim1 = claimRepository.save(claim);
+
+        claimReviewService.saveClaimReview(
+                claim1,
+                previousStatus,
+                ClaimStatus.UNDER_REVIEW,
+                ClaimActionType.START_REVIEW,
+                "Admin started reviewing claim"
+        );
 
         return claimMapper.toClaimResponse(claim1);
     }
@@ -214,10 +227,20 @@ public class ClaimServiceImpl implements ClaimService {
         Claim claim = claimRepository.findById(claimId)
                 .orElseThrow(()-> new AppException(ErrorCode.CLAIM_NOT_FOUND));
 
+        ClaimStatus previousStatus = claim.getStatus();
+
         claim.setStatus(ClaimStatus.NEED_MORE_INFO);
         claim.setUpdatedAt(LocalDateTime.now());
 
         Claim claim1 = claimRepository.save(claim);
+
+        claimReviewService.saveClaimReview(
+                claim1,
+                previousStatus,
+                ClaimStatus.NEED_MORE_INFO,
+                ClaimActionType.REQUEST_MORE_INFO,
+                "Admin request more info claim"
+        );
 
         return claimMapper.toClaimResponse(claim1);
     }
@@ -228,10 +251,20 @@ public class ClaimServiceImpl implements ClaimService {
         Claim claim = claimRepository.findById(claimId)
                 .orElseThrow(()-> new AppException(ErrorCode.CLAIM_NOT_FOUND));
 
+        ClaimStatus previousStatus = claim.getStatus();
+
         claim.setStatus(ClaimStatus.APPROVED);
         claim.setUpdatedAt(LocalDateTime.now());
 
         Claim claim1 = claimRepository.save(claim);
+
+        claimReviewService.saveClaimReview(
+                claim1,
+                previousStatus,
+                ClaimStatus.APPROVED,
+                ClaimActionType.APPROVED,
+                "admin approved claim"
+        );
 
         return claimMapper.toClaimResponse(claim1);
     }
@@ -242,10 +275,22 @@ public class ClaimServiceImpl implements ClaimService {
         Claim claim = claimRepository.findById(claimId)
                 .orElseThrow(()-> new AppException(ErrorCode.CLAIM_NOT_FOUND));
 
+        ClaimStatus previousStatus = claim.getStatus();
+
+        claim.setStatus(ClaimStatus.REJECTED);
+        claim.setRejectionReason(request.getRejectionReason());
         claim.setUpdatedAt(LocalDateTime.now());
         claim.setClosedAt(LocalDateTime.now());
 
-        claimMapper.updateClaim(request, claim);
+        Claim savedClaim = claimRepository.save(claim);
+
+        claimReviewService.saveClaimReview(
+                savedClaim,
+                previousStatus,
+                ClaimStatus.REJECTED,
+                ClaimActionType.REJECTED,
+                "admin rejected claim"
+        );
 
         return claimMapper.toClaimResponse(claim);
     }
@@ -256,10 +301,22 @@ public class ClaimServiceImpl implements ClaimService {
         Claim claim = claimRepository.findById(claimId)
                 .orElseThrow(()-> new AppException(ErrorCode.CLAIM_NOT_FOUND));
 
+        ClaimStatus previousStatus = claim.getStatus();
+
+        claim.setStatus(ClaimStatus.PAID);
+        claim.setApprovedAmount(request.getApprovedAmount());
         claim.setUpdatedAt(LocalDateTime.now());
         claim.setClosedAt(LocalDateTime.now());
 
-        claimMapper.updateClaim(request, claim);
+        Claim savedClaim = claimRepository.save(claim);
+
+        claimReviewService.saveClaimReview(
+                savedClaim,
+                previousStatus,
+                ClaimStatus.PAID,
+                ClaimActionType.PAID,
+                "admin paid claim"
+        );
 
         return claimMapper.toClaimResponse(claim);
     }
