@@ -1,5 +1,6 @@
 package app.project.InsuranceService.dto.response.Contract;
 
+import app.project.InsuranceService.enums.ContractPaymentStatus;
 import app.project.InsuranceService.enums.ContractStatus;
 import app.project.InsuranceService.enums.PaymentStatus;
 import lombok.*;
@@ -31,7 +32,7 @@ public class ContractResponse {
 
     ContractStatus contractStatus;
 
-    PaymentStatus paymentStatus;
+    ContractPaymentStatus paymentStatus;
 
     LocalDate startDate;
 

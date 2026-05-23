@@ -128,6 +128,13 @@ public enum ErrorCode {
     CLAIM_DOCUMENT_NOT_FOUND(1516, "Claim document not found", HttpStatus.BAD_REQUEST),
     COMMENT_TOO_LONG(1517, "Comments cannot exceed 2000 words", HttpStatus.BAD_REQUEST),
     INVALID_CLAIM_STATUS(1518, "claim status is invalid", HttpStatus.BAD_REQUEST),
+
+    //payment
+
+    CONTRACT_EXISTED(1601, "contract existed", HttpStatus.BAD_REQUEST),
+    INVALID_PAYMENT_SIGNATURE(1602, "payment signature invalid", HttpStatus.BAD_REQUEST),
+    PAYMENT_NOT_FOUND(1603, "payment not found", HttpStatus.BAD_REQUEST),
+
     ;
 
 

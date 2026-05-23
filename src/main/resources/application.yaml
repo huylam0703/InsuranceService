@@ -24,3 +24,15 @@ cloudinary:
   cloud-name: dcpj8cfng
   api-key:  918924966822386
   api-secret: AgeAnoSbgJibSGcPeAhUl_-CPEI
+
+
+payment:
+  vnPay:
+    tmnCode: SW651WLD
+    secretKey: FQM89H739O70SB12OH3NK9GLO4DKCOLJ
+    url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+    returnUrl: http://localhost:8080/api/v1/payment/vnpay-return
+    timeout: 15 #in minute
+    version: 2.1.0
+    command: pay
+    orderType: other

@@ -13,8 +13,8 @@ import app.project.InsuranceService.entity.DetailsContractType.TravelContractDet
 import app.project.InsuranceService.entity.DetailsContractType.VehicleContractDetails;
 import app.project.InsuranceService.entity.Policy;
 import app.project.InsuranceService.entity.User;
+import app.project.InsuranceService.enums.ContractPaymentStatus;
 import app.project.InsuranceService.enums.ContractStatus;
-import app.project.InsuranceService.enums.PaymentStatus;
 import app.project.InsuranceService.exception.AppException;
 import app.project.InsuranceService.exception.ErrorCode;
 import app.project.InsuranceService.mapper.ContractDetailsMapper;
@@ -88,7 +88,7 @@ public class ContractServiceImpl implements ContractService {
                 .coverageAmount(policy.getCoverageAmount())
                 .remainingCoverage(policy.getCoverageAmount())
                 .contractStatus(ContractStatus.PENDING)
-                .paymentStatus(PaymentStatus.UNPAID)
+                .paymentStatus(ContractPaymentStatus.UNPAID)
                 .build();
         Contract savedContract = contractRepository.save(contract);
 
