@@ -1,5 +1,6 @@
 package app.project.InsuranceService.entity;
 
+import app.project.InsuranceService.enums.ContractPaymentStatus;
 import app.project.InsuranceService.enums.ContractStatus;
 import app.project.InsuranceService.enums.PaymentStatus;
 import jakarta.persistence.*;
@@ -48,6 +49,6 @@ public class Contract {
     ContractStatus contractStatus;
 
     @Enumerated(EnumType.STRING)
-    PaymentStatus paymentStatus;
+    ContractPaymentStatus paymentStatus;
 
 }

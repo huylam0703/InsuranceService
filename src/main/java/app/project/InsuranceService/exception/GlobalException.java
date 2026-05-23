@@ -23,7 +23,7 @@ public class GlobalException {
     @ExceptionHandler(value = Exception.class)
     ResponseEntity<ApiResponse> exception(Exception e) {
         ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
+        apiResponse.setMessage(e.getMessage());
         apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
