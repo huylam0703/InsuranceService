@@ -263,6 +263,15 @@ public class ContractServiceImpl implements ContractService {
         return contractMapper.toContractResponse(contract);
     }
 
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public long totalContractsPayment() {
+        long count = contractRepository.countByContractStatusAndPaymentStatus(
+                ContractStatus.ACTIVE, ContractPaymentStatus.PAID);
+
+        return count;
+    }
+
 
     private String contractCodeGenerate(String policyCode){
         long count = contractRepository.count() + 1;

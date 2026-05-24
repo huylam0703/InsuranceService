@@ -21,4 +21,6 @@ public interface ContractService {
     List<ContractResponse> getAllMyContracts(int pageNo, int pageSize, ContractStatus status);
 
     ContractResponse cancelContract(String contractId);
+
+    long totalContractsPayment();
 }
