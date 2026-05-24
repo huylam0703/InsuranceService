@@ -112,4 +112,16 @@ public class ContractController {
 
     }
 
+    @GetMapping("/totalContract")
+    public ResponseEntity<ApiResponse<Long>> totalContract(){
+        log.info("Request to total contract");
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.<Long>builder()
+                        .code(1000)
+                        .message("Total contract")
+                        .result(contractService.totalContractsPayment())
+                        .build());
+    }
+
 }
