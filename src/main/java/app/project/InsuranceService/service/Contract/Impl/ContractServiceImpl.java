@@ -27,6 +27,7 @@ import app.project.InsuranceService.repository.ContractRepository;
 import app.project.InsuranceService.repository.PolicyRepository;
 import app.project.InsuranceService.repository.UserRepository;
 import app.project.InsuranceService.service.Contract.ContractService;
+import app.project.InsuranceService.service.Notification.NotificationService;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import lombok.AccessLevel;
