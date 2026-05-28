@@ -10,6 +10,7 @@ import app.project.InsuranceService.entity.Payment;
 import app.project.InsuranceService.entity.User;
 import app.project.InsuranceService.enums.ContractPaymentStatus;
 import app.project.InsuranceService.enums.ContractStatus;
+import app.project.InsuranceService.enums.NotificationType;
 import app.project.InsuranceService.enums.PaymentStatus;
 import app.project.InsuranceService.exception.AppException;
 import app.project.InsuranceService.exception.ErrorCode;
@@ -17,6 +18,7 @@ import app.project.InsuranceService.mapper.PaymentMapper;
 import app.project.InsuranceService.repository.ContractRepository;
 import app.project.InsuranceService.repository.PaymentRepository;
 import app.project.InsuranceService.repository.UserRepository;
+import app.project.InsuranceService.service.Notification.NotificationService;
 import app.project.InsuranceService.service.Payment.PaymentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
@@ -46,6 +48,8 @@ public class PaymentServiceImpl implements PaymentService {
     PaymentMapper paymentMapper;
     VNPayConfig vnPayConfig;
     UserRepository userRepository;
+
+    NotificationService notificationService;
 
     @Override
     @Transactional
@@ -130,6 +134,22 @@ public class PaymentServiceImpl implements PaymentService {
             Contract contract = payment.getContract();
             contract.setPaymentStatus(ContractPaymentStatus.PAID);
             contract.setContractStatus(ContractStatus.ACTIVE);
+
+            User user = contract.getUser();
+
+            notificationService.createNotification(
+                    user,
+                    "Payment successful",
+                    "Your payment for contract " + contract.getContractCode() + " was successful",
+                    NotificationType.PAYMENT
+            );
+
+            notificationService.notifyAdmins(
+                    user,
+                    "New contract payment",
+                    "User " + user.getUsername() + " paid for contract " + contract.getContractCode(),
+                    NotificationType.PAYMENT
+            );
 
             contractRepository.save(contract);
         } else {

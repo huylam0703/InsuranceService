@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/InsuranceService_db}
-    username: ${POSTGRES_USER:postgres}
-    password: ${POSTGRES_PASSWORD:123456}
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     properties:
       hibernate:
@@ -22,14 +22,14 @@ jwt:
 
 cloudinary:
   cloud-name: dcpj8cfng
-  api-key:  918924966822386
-  api-secret: AgeAnoSbgJibSGcPeAhUl_-CPEI
+  api-key: ${CLOUD_API_KEY}
+  api-secret: ${CLOUD_API_SECRET}
 
 
 payment:
   vnPay:
-    tmnCode: SW651WLD
-    secretKey: FQM89H739O70SB12OH3NK9GLO4DKCOLJ
+    tmnCode: ${PAYMENT_TMNCODE}
+    secretKey: ${PAYMENT_SECRETKEY}
     url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
     returnUrl: http://localhost:8080/api/v1/payment/vnpay-return
     timeout: 15 #in minute
