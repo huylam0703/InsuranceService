@@ -247,13 +247,14 @@ public class ClaimServiceImpl implements ClaimService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public ClaimResponse adminApprovedClaim(String claimId) {
+    public ClaimResponse adminApprovedClaim(ClaimAdminUpdateRequest request, String claimId) {
         Claim claim = claimRepository.findById(claimId)
                 .orElseThrow(()-> new AppException(ErrorCode.CLAIM_NOT_FOUND));
 
         ClaimStatus previousStatus = claim.getStatus();
 
         claim.setStatus(ClaimStatus.APPROVED);
+        claim.setApprovedAmount(request.getApprovedAmount());
         claim.setUpdatedAt(LocalDateTime.now());
 
         Claim claim1 = claimRepository.save(claim);

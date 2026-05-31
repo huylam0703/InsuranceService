@@ -25,7 +25,7 @@ public interface ClaimService {
 
     ClaimResponse adminNeedInfoClaim(String claimId);
 
-    ClaimResponse adminApprovedClaim(String claimId);
+    ClaimResponse adminApprovedClaim(ClaimAdminUpdateRequest request, String claimId);
 
     ClaimResponse adminRejectedClaim(ClaimAdminUpdateRequest request, String claimId);
 

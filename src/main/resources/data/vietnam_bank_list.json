@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "shortName": "Vietcombank",
+    "name": "Ngân hàng Thương mại Cổ phần Ngoại Thương Việt Nam",
+    "bin": "970436",
+    "code": "VCB"
+  },
+  {
+    "id": 2,
+    "shortName": "BIDV",
+    "name": "Ngân hàng Thương mại Cổ phần Đầu tư và Phát triển Việt Nam",
+    "bin": "970418",
+    "code": "BIDV"
+  },
+  {
+    "id": 3,
+    "shortName": "VietinBank",
+    "name": "Ngân hàng Thương mại Cổ phần Công Thương Việt Nam",
+    "bin": "970415",
+    "code": "CTG"
+  },
+  {
+    "id": 4,
+    "shortName": "Agribank",
+    "name": "Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam",
+    "bin": "970405",
+    "code": "VBA"
+  },
+  {
+    "id": 5,
+    "shortName": "Techcombank",
+    "name": "Ngân hàng Thương mại Cổ phần Kỹ Thương Việt Nam",
+    "bin": "970407",
+    "code": "TCB"
+  },
+  {
+    "id": 6,
+    "shortName": "MB Bank",
+    "name": "Ngân hàng Thương mại Cổ phần Quân Đội",
+    "bin": "970422",
+    "code": "MBB"
+  },
+  {
+    "id": 7,
+    "shortName": "ACB",
+    "name": "Ngân hàng Thương mại Cổ phần Á Châu",
+    "bin": "970416",
+    "code": "ACB"
+  },
+  {
+    "id": 8,
+    "shortName": "Sacombank",
+    "name": "Ngân hàng Thương mại Cổ phần Sài Gòn Thương Tín",
+    "bin": "970403",
+    "code": "STB"
+  },
+  {
+    "id": 9,
+    "shortName": "VPBank",
+    "name": "Ngân hàng Thương mại Cổ phần Việt Nam Thịnh Vượng",
+    "bin": "970432",
+    "code": "VPB"
+  },
+  {
+    "id": 10,
+    "shortName": "TPBank",
+    "name": "Ngân hàng Thương mại Cổ phần Tiên Phong",
+    "bin": "970423",
+    "code": "TPB"
+  }
+]

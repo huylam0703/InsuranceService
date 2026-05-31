@@ -17,9 +17,6 @@ import java.math.BigDecimal;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ClaimAdminUpdateRequest {
 
-    @NotNull(message = "STATUS_REQUIRED")
-    ClaimStatus status;
-
     @DecimalMin(
             value = "0.0",
             inclusive = true,

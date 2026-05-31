@@ -41,7 +41,8 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/swagger-ui/**", "/payment/vnpay-return", "/ws/**"
+                                "/swagger-ui/**", "/payment/vnpay-return", "/ws/**", "/v3/api-docs/**",
+                                "/swagger-ui.html"
                         ).permitAll()
                         .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()

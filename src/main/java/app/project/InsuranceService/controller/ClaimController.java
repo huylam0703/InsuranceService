@@ -120,14 +120,15 @@ public class ClaimController {
     }
 
     @PutMapping("/approved/{claimId}")
-    public ResponseEntity<ApiResponse<ClaimResponse>> adminApprovedClaim(@PathVariable String claimId) {
+    public ResponseEntity<ApiResponse<ClaimResponse>> adminApprovedClaim(@RequestBody @Valid ClaimAdminUpdateRequest request,
+                                                                         @PathVariable String claimId) {
         log.info("adminApprovedClaim claim request: {}", claimId);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.<ClaimResponse>builder()
                         .code(1000)
                         .message("adim Approved Claim success")
-                        .result(claimService.adminApprovedClaim(claimId))
+                        .result(claimService.adminApprovedClaim(request, claimId))
                         .build());
 
     }

@@ -119,7 +119,6 @@ public enum ErrorCode {
     INCIDENT_DATE_INVALID(1507, "Incident date cannot be in the future", HttpStatus.BAD_REQUEST),
     CLAIM_AMOUNT_REQUIRED(1508, "Claim amount is required", HttpStatus.BAD_REQUEST),
     CLAIM_AMOUNT_INVALID(1509, "Claim amount must be greater than 0", HttpStatus.BAD_REQUEST),
-    STATUS_REQUIRED(1510, "Status is required", HttpStatus.BAD_REQUEST),
     APPROVED_AMOUNT_INVALID(1511, "Approved amount must be greater than or equal to 0", HttpStatus.BAD_REQUEST),
     REJECTION_REASON_TOO_LONG(1512, "Rejection reason must not exceed 2000 characters", HttpStatus.BAD_REQUEST),
     CLAIM_CLOSED(1513, "Claim closed", HttpStatus.BAD_REQUEST),
@@ -134,6 +133,10 @@ public enum ErrorCode {
     CONTRACT_EXISTED(1601, "contract existed", HttpStatus.BAD_REQUEST),
     INVALID_PAYMENT_SIGNATURE(1602, "payment signature invalid", HttpStatus.BAD_REQUEST),
     PAYMENT_NOT_FOUND(1603, "payment not found", HttpStatus.BAD_REQUEST),
+
+
+    //bank
+    BANK_NOT_FOUND(1701, "bank not found", HttpStatus.BAD_REQUEST),
 
     ;
 
