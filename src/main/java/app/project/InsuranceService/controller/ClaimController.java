@@ -147,15 +147,14 @@ public class ClaimController {
     }
 
     @PutMapping("/paid/{claimId}")
-    public ResponseEntity<ApiResponse<ClaimResponse>> adminPaidClaim(@RequestBody @Valid ClaimAdminUpdateRequest request,
-                                                                     @PathVariable String claimId) {
+    public ResponseEntity<ApiResponse<ClaimResponse>> adminPaidClaim(@PathVariable String claimId) {
         log.info("adminPaidClaim claim request: {}", claimId);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.<ClaimResponse>builder()
                         .code(1000)
                         .message("adim Paid Claim success")
-                        .result(claimService.adminPaidClaim(request, claimId))
+                        .result(claimService.adminPaidClaim(claimId))
                         .build());
     }
 

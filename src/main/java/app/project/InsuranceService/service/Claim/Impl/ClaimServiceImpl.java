@@ -3,6 +3,8 @@ package app.project.InsuranceService.service.Claim.Impl;
 import app.project.InsuranceService.dto.request.Claim.ClaimCreationRequest;
 import app.project.InsuranceService.dto.request.Claim.ClaimAdminUpdateRequest;
 import app.project.InsuranceService.dto.request.Claim.ClaimUserUpdateRequest;
+import app.project.InsuranceService.dto.request.Email.Recipient;
+import app.project.InsuranceService.dto.request.Email.SendEmailRequest;
 import app.project.InsuranceService.dto.response.Claim.ClaimResponse;
 import app.project.InsuranceService.dto.response.ClaimDocument.ClaimDocumentResponse;
 import app.project.InsuranceService.entity.Claim;
@@ -21,6 +23,9 @@ import app.project.InsuranceService.repository.ContractRepository;
 import app.project.InsuranceService.repository.UserRepository;
 import app.project.InsuranceService.service.Claim.ClaimService;
 import app.project.InsuranceService.service.ClaimReview.ClaimReviewService;
+import app.project.InsuranceService.service.Email.EmailAsyncService;
+import app.project.InsuranceService.service.Email.EmailService;
+import app.project.InsuranceService.service.Email.EmailTemplateService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -49,6 +54,8 @@ public class ClaimServiceImpl implements ClaimService {
     ClaimDocumentRepository claimDocumentRepository;
     ClaimDocumentMapper claimDocumentMapper;
     ClaimReviewService claimReviewService;
+     EmailAsyncService emailAsyncService;
+    EmailTemplateService emailTemplateService;
 
 
     @Override
@@ -298,14 +305,14 @@ public class ClaimServiceImpl implements ClaimService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public ClaimResponse adminPaidClaim(ClaimAdminUpdateRequest request, String claimId) {
+    public ClaimResponse adminPaidClaim(String claimId) {
         Claim claim = claimRepository.findById(claimId)
                 .orElseThrow(()-> new AppException(ErrorCode.CLAIM_NOT_FOUND));
 
         ClaimStatus previousStatus = claim.getStatus();
 
         claim.setStatus(ClaimStatus.PAID);
-        claim.setApprovedAmount(request.getApprovedAmount());
+        claim.setApprovedAmount(claim.getApprovedAmount());
         claim.setUpdatedAt(LocalDateTime.now());
         claim.setClosedAt(LocalDateTime.now());
 
@@ -318,6 +325,22 @@ public class ClaimServiceImpl implements ClaimService {
                 ClaimActionType.PAID,
                 "admin paid claim"
         );
+        String htmlContent = emailTemplateService.buildClaimPaidEmail(
+                claim.getCustomer().getUsername(),
+                claim.getClaimCode(),
+                claim.getApprovedAmount()
+        );
+
+        SendEmailRequest emailRequest  = SendEmailRequest.builder()
+                .to(Recipient.builder()
+                        .email(claim.getCustomer().getEmail())
+                        .name(claim.getCustomer().getUsername())
+                        .build())
+                .subject("Thông báo thanh toán bồi thường")
+                .htmlContent(htmlContent)
+                .build();
+
+        emailAsyncService.sendEmailAsync(emailRequest);
 
         return claimMapper.toClaimResponse(claim);
     }

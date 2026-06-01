@@ -40,3 +40,9 @@ payment:
     version: 2.1.0
     command: pay
     orderType: other
+
+brevo:
+  sender:
+    name: Insurance Service
+    email: huylamnhat244@gmail.com
+  api-key: ${BREVO_API_KEY}

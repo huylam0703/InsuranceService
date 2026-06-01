@@ -29,7 +29,7 @@ public interface ClaimService {
 
     ClaimResponse adminRejectedClaim(ClaimAdminUpdateRequest request, String claimId);
 
-    ClaimResponse adminPaidClaim(ClaimAdminUpdateRequest request, String claimId);
+    ClaimResponse adminPaidClaim(String claimId);
 
     ClaimResponse userUpdateClaim(ClaimUserUpdateRequest request, String claimId);
 }
