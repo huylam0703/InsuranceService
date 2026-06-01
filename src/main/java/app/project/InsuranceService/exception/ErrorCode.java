@@ -137,7 +137,7 @@ public enum ErrorCode {
 
     //bank
     BANK_NOT_FOUND(1701, "bank not found", HttpStatus.BAD_REQUEST),
-
+    USER_BANK_ACCOUNT_NOT_FOUND(1702, "user bank account not found", HttpStatus.BAD_REQUEST)
     ;
 
 

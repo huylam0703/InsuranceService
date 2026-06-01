@@ -20,7 +20,7 @@ server:
 #    config-url: /api/v1/v3/api-docs/swagger-config
 #    url: /api/v1/v3/api-docs
 jwt:
-  singerKey: "PC8kxKGhdSmTjsgrnxy6r4qamn8fmrtkexw9EQCa02A="
+  singerKey: ${JWT_SINGERKEY}
   valid-duration: 3600 # in second
   refreshable-duration: 360000 # in second
 

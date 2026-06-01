@@ -17,10 +17,10 @@ public class UserBankAccount {
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
     User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     Bank bank;
 
     String accountNumber;

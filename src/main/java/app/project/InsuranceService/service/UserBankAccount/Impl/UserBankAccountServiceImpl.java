@@ -56,7 +56,8 @@ public class UserBankAccountServiceImpl implements UserBankAccountService {
     public UserBankAccountResponse getMyBankAccount() {
         User user = getCurrentUser();
 
-        UserBankAccount userBankAccount = userBankAccountRepository.findByUser_Id(user.getId());
+        UserBankAccount userBankAccount = userBankAccountRepository.findByUser_Id(user.getId())
+                .orElseThrow(()-> new AppException(ErrorCode.USER_BANK_ACCOUNT_NOT_FOUND));
         return userBankAccountMapper.toResponse(userBankAccount);
 
     }
@@ -64,7 +65,8 @@ public class UserBankAccountServiceImpl implements UserBankAccountService {
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public UserBankAccountResponse getUserBankAccount(String userId) {
-        UserBankAccount userBankAccount = userBankAccountRepository.findByUser_Id(userId);
+        UserBankAccount userBankAccount = userBankAccountRepository.findByUser_Id(userId)
+                .orElseThrow(()-> new AppException(ErrorCode.USER_BANK_ACCOUNT_NOT_FOUND));
         return userBankAccountMapper.toResponse(userBankAccount);
     }
 
