@@ -25,8 +25,8 @@ public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {"/users", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refesh"};
     private final String[] PUBLIC_GET_ENDPOINTS = {"/policies/**"};
 
-    @Value("${jwt.singerKey}")
-    private String singerKey;
+    @Value("${jwt.signerKey}")
+    private String signerKey;
 
     @Autowired
     private CustomJwtDecoder jwtDecoder;

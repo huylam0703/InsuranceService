@@ -45,7 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     InvalidatedTokenRepository invalidatedTokenRepository;
 
     @NonFinal 
-    @Value("${jwt.singerKey}")
+    @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
 
     @NonFinal
