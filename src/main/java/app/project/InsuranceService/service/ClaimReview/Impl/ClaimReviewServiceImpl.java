@@ -101,7 +101,13 @@ public class ClaimReviewServiceImpl implements ClaimReviewService {
 
         claimReviews = claimReviewRepository.findAll(pageable);
 
+        List<ClaimReviewResponse> claimReviewResponses = claimReviews.getContent()
+                .stream()
+                .map(claimReviewMapper::toClaimReviewResponse)
+                .toList();
+
         return PageResponse.<ClaimReviewResponse>builder()
+                .content(claimReviewResponses)
                 .pageNo(pageNo)
                 .pageSize(pageSize)
                 .totalElements(claimReviews.getTotalElements())
