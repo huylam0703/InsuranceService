@@ -55,12 +55,6 @@ public class UserController {
                                                                               @RequestParam(defaultValue = "5") int pageSize){
         log.info("Get all users");
 
-         var authentication = SecurityContextHolder.getContext().getAuthentication();
-
-         log.info("username: {}", authentication.getName());
-        authentication.getAuthorities().forEach(g -> log.info(g.getAuthority()));
-
-
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.<PageResponse<UserResponse>>builder()
                         .code(1000)
