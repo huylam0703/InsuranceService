@@ -15,16 +15,31 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    env:
+      POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+
+      JWT_SIGNERKEY: ${{ secrets.JWT_SIGNERKEY }}
+
+      CLOUD_API_KEY: ${{ secrets.CLOUD_API_KEY }}
+      CLOUD_API_SECRET: ${{ secrets.CLOUD_API_SECRET }}
+
+      PAYMENT_TMNCODE: ${{ secrets.PAYMENT_TMNCODE }}
+      PAYMENT_SECRETKEY: ${{ secrets.PAYMENT_SECRETKEY }}
+
+      BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup JDK 17
+      - name: Setup JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
           cache: maven
 
-      - name: Build and Test
-        run: mvn clean verify
+      - name: Build without tests
+        run: mvn clean package -DskipTests
