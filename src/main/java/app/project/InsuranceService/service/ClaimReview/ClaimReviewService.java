@@ -1,6 +1,7 @@
 package app.project.InsuranceService.service.ClaimReview;
 
 import app.project.InsuranceService.dto.response.ClaimReview.ClaimReviewResponse;
+import app.project.InsuranceService.dto.response.PageResponse;
 import app.project.InsuranceService.entity.Claim;
 import app.project.InsuranceService.enums.ClaimActionType;
 import app.project.InsuranceService.enums.ClaimStatus;
@@ -18,5 +19,5 @@ public interface ClaimReviewService {
 
     List<ClaimReviewResponse> getClaimReviewByClaimId(String claimId);
 
-    List<ClaimReviewResponse> getAllClaimReview(int pageNo, int pageSize);
+    PageResponse<ClaimReviewResponse> getAllClaimReview(int pageNo, int pageSize);
 }

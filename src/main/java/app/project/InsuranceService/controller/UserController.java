@@ -3,6 +3,7 @@ package app.project.InsuranceService.controller;
 import app.project.InsuranceService.dto.request.User.UserCreationRequest;
 import app.project.InsuranceService.dto.request.User.UserUpdateRequest;
 import app.project.InsuranceService.dto.response.Auth.ApiResponse;
+import app.project.InsuranceService.dto.response.PageResponse;
 import app.project.InsuranceService.dto.response.User.UserResponse;
 import app.project.InsuranceService.service.User.UserService;
 import jakarta.validation.Valid;
@@ -50,7 +51,8 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUser(){
+    public ResponseEntity<ApiResponse<PageResponse<UserResponse>>> getAllUser(@RequestParam(defaultValue = "1") int pageNo,
+                                                                              @RequestParam(defaultValue = "5") int pageSize){
         log.info("Get all users");
 
          var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -60,9 +62,9 @@ public class UserController {
 
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<List<UserResponse>>builder()
+                .body(ApiResponse.<PageResponse<UserResponse>>builder()
                         .code(1000)
-                        .result(userService.getAllUsers())
+                        .result(userService.getAllUsers(pageNo, pageSize))
                         .message("All users")
                         .build());
     }

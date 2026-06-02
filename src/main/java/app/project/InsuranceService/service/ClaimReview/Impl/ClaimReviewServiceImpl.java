@@ -1,6 +1,7 @@
 package app.project.InsuranceService.service.ClaimReview.Impl;
 
 import app.project.InsuranceService.dto.response.ClaimReview.ClaimReviewResponse;
+import app.project.InsuranceService.dto.response.PageResponse;
 import app.project.InsuranceService.entity.Claim;
 import app.project.InsuranceService.entity.ClaimReview;
 import app.project.InsuranceService.entity.Contract;
@@ -89,7 +90,7 @@ public class ClaimReviewServiceImpl implements ClaimReviewService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public List<ClaimReviewResponse> getAllClaimReview(int pageNo, int pageSize) {
+    public PageResponse<ClaimReviewResponse> getAllClaimReview(int pageNo, int pageSize) {
         if(pageNo > 0){
             pageNo = pageNo - 1;
         }
@@ -100,8 +101,13 @@ public class ClaimReviewServiceImpl implements ClaimReviewService {
 
         claimReviews = claimReviewRepository.findAll(pageable);
 
-        return claimReviews.stream()
-                .map(claimReviewMapper::toClaimReviewResponse).toList();
+        return PageResponse.<ClaimReviewResponse>builder()
+                .pageNo(pageNo)
+                .pageSize(pageSize)
+                .totalElements(claimReviews.getTotalElements())
+                .totalPages(claimReviews.getTotalPages())
+                .last(claimReviews.isLast())
+                .build();
     }
 
     private User getCurrentUser() {

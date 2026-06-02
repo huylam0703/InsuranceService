@@ -2,6 +2,7 @@ package app.project.InsuranceService.controller;
 
 import app.project.InsuranceService.dto.response.Auth.ApiResponse;
 import app.project.InsuranceService.dto.response.ClaimReview.ClaimReviewResponse;
+import app.project.InsuranceService.dto.response.PageResponse;
 import app.project.InsuranceService.service.ClaimReview.ClaimReviewService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -34,13 +35,13 @@ public class ClaimReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ClaimReviewResponse>>> getAllClaimReviews(@RequestParam(defaultValue = "1") int pageNo,
-                                                                                     @RequestParam(defaultValue = "5") int pageSize) {
+    public ResponseEntity<ApiResponse<PageResponse<ClaimReviewResponse>>> getAllClaimReviews(@RequestParam(defaultValue = "1") int pageNo,
+                                                                                             @RequestParam(defaultValue = "5") int pageSize) {
 
         log.info("get all claim reviews");
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<List<ClaimReviewResponse>>builder()
+                .body(ApiResponse.<PageResponse<ClaimReviewResponse>>builder()
                         .code(1000)
                         .message("get all claim reviews")
                         .result(claimReviewService.getAllClaimReview(pageNo, pageSize))

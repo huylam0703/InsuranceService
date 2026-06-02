@@ -2,6 +2,7 @@ package app.project.InsuranceService.service.Contract;
 
 import app.project.InsuranceService.dto.request.Contract.ContractCreationRequest;
 import app.project.InsuranceService.dto.response.Contract.ContractResponse;
+import app.project.InsuranceService.dto.response.PageResponse;
 import app.project.InsuranceService.enums.ContractStatus;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,11 +15,11 @@ public interface ContractService {
 
     ContractResponse getDetailContract(String contractId);
 
-    List<ContractResponse> getAllContractsByUserId(int pageNo, int pageSize, ContractStatus status, String userId);
+    PageResponse<ContractResponse> getAllContractsByUserId(int pageNo, int pageSize, ContractStatus status, String userId);
 
-    List<ContractResponse> getAllContracts(int pageNo, int pageSize, ContractStatus status);
+    PageResponse<ContractResponse> getAllContracts(int pageNo, int pageSize, ContractStatus status);
 
-    List<ContractResponse> getAllMyContracts(int pageNo, int pageSize, ContractStatus status);
+    PageResponse<ContractResponse> getAllMyContracts(int pageNo, int pageSize, ContractStatus status);
 
     ContractResponse cancelContract(String contractId);
 

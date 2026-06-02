@@ -6,6 +6,7 @@ import app.project.InsuranceService.dto.response.ContractDetails.HealthContractD
 import app.project.InsuranceService.dto.response.ContractDetails.LifeContractDetailResponse;
 import app.project.InsuranceService.dto.response.ContractDetails.TravelContractDetailResponse;
 import app.project.InsuranceService.dto.response.ContractDetails.VehicleContractDetailResponse;
+import app.project.InsuranceService.dto.response.PageResponse;
 import app.project.InsuranceService.entity.Contract;
 import app.project.InsuranceService.entity.DetailsContractType.HealthContractDetails;
 import app.project.InsuranceService.entity.DetailsContractType.LifeContractDetails;
@@ -167,7 +168,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public List<ContractResponse> getAllContractsByUserId(int pageNo, int pageSize, ContractStatus status, String userId) {
+    public PageResponse<ContractResponse> getAllContractsByUserId(int pageNo, int pageSize, ContractStatus status, String userId) {
 
         if(pageNo > 0){
             pageNo = pageNo - 1;
@@ -198,13 +199,18 @@ public class ContractServiceImpl implements ContractService {
                     );
         }
 
-        return contracts.stream()
-                .map(contractMapper::toContractResponse).toList();
+        return PageResponse.<ContractResponse>builder()
+                .pageNo(pageNo)
+                .pageSize(pageSize)
+                .totalElements(contracts.getTotalElements())
+                .totalPages(contracts.getTotalPages())
+                .last(contracts.isLast())
+                .build();
     }
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public List<ContractResponse> getAllContracts(int pageNo, int pageSize, ContractStatus status) {
+    public PageResponse<ContractResponse> getAllContracts(int pageNo, int pageSize, ContractStatus status) {
         if(pageNo > 0){
             pageNo = pageNo - 1;
         }
@@ -222,13 +228,18 @@ public class ContractServiceImpl implements ContractService {
             contracts = contractRepository.findAll(pageable);
         }
 
-        return contracts.stream()
-                .map(contractMapper::toContractResponse).toList();
+        return PageResponse.<ContractResponse>builder()
+                .pageNo(pageNo)
+                .pageSize(pageSize)
+                .totalElements(contracts.getTotalElements())
+                .totalPages(contracts.getTotalPages())
+                .last(contracts.isLast())
+                .build();
     }
 
     @Override
     @PreAuthorize("hasRole('USER')")
-    public List<ContractResponse> getAllMyContracts(int pageNo, int pageSize, ContractStatus status) {
+    public PageResponse<ContractResponse> getAllMyContracts(int pageNo, int pageSize, ContractStatus status) {
         User userCurrent = getCurrentUser();
 
         String targetUserId = userCurrent.getId();
@@ -248,8 +259,13 @@ public class ContractServiceImpl implements ContractService {
             contracts = contractRepository.findByUser_Id(targetUserId, pageable);
         }
 
-        return contracts.stream()
-                .map(contractMapper::toContractResponse).toList();
+        return PageResponse.<ContractResponse>builder()
+                .pageNo(pageNo)
+                .pageSize(pageSize)
+                .totalElements(contracts.getTotalElements())
+                .totalPages(contracts.getTotalPages())
+                .last(contracts.isLast())
+                .build();
     }
 
     @Override

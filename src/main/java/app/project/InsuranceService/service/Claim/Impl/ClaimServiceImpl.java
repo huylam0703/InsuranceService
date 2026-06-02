@@ -7,6 +7,7 @@ import app.project.InsuranceService.dto.request.Email.Recipient;
 import app.project.InsuranceService.dto.request.Email.SendEmailRequest;
 import app.project.InsuranceService.dto.response.Claim.ClaimResponse;
 import app.project.InsuranceService.dto.response.ClaimDocument.ClaimDocumentResponse;
+import app.project.InsuranceService.dto.response.PageResponse;
 import app.project.InsuranceService.entity.Claim;
 import app.project.InsuranceService.entity.Contract;
 import app.project.InsuranceService.entity.User;
@@ -136,7 +137,7 @@ public class ClaimServiceImpl implements ClaimService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public List<ClaimResponse> getAllClaimsCustomer(int pageNo, int pageSize, ClaimStatus status, String userId) {
+    public PageResponse<ClaimResponse> getAllClaimsCustomer(int pageNo, int pageSize, ClaimStatus status, String userId) {
         if(pageNo > 0){
             pageNo = pageNo - 1;
         }
@@ -152,13 +153,18 @@ public class ClaimServiceImpl implements ClaimService {
             claims = claimRepository.findByCustomer_Id(userId, pageable);
         }
 
-        return claims.stream()
-                .map(claimMapper::toClaimResponse).toList();
+        return PageResponse.<ClaimResponse>builder()
+                .pageNo(pageNo)
+                .pageSize(pageSize)
+                .totalElements(claims.getTotalElements())
+                .totalPages(claims.getTotalPages())
+                .last(claims.isLast())
+                .build();
     }
 
     @Override
     @PreAuthorize("hasRole('USER')")
-    public List<ClaimResponse> getAllMyClaims(int pageNo, int pageSize, ClaimStatus status) {
+    public PageResponse<ClaimResponse> getAllMyClaims(int pageNo, int pageSize, ClaimStatus status) {
         User userCurrent = getCurrentUser();
 
         String userId = userCurrent.getId();
@@ -178,13 +184,18 @@ public class ClaimServiceImpl implements ClaimService {
             claims = claimRepository.findByCustomer_Id(userId, pageable);
         }
 
-        return claims.stream()
-                .map(claimMapper::toClaimResponse).toList();
+        return PageResponse.<ClaimResponse>builder()
+                .pageNo(pageNo)
+                .pageSize(pageSize)
+                .totalElements(claims.getTotalElements())
+                .totalPages(claims.getTotalPages())
+                .last(claims.isLast())
+                .build();
     }
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public List<ClaimResponse> getAllClaim(int pageNo, int pageSize, ClaimStatus status) {
+    public PageResponse<ClaimResponse> getAllClaim(int pageNo, int pageSize, ClaimStatus status) {
         if(pageNo > 0){
             pageNo = pageNo - 1;
         }
@@ -200,8 +211,13 @@ public class ClaimServiceImpl implements ClaimService {
             claims = claimRepository.findAll(pageable);
         }
 
-        return claims.stream()
-                .map(claimMapper::toClaimResponse).toList();
+        return PageResponse.<ClaimResponse>builder()
+                .pageNo(pageNo)
+                .pageSize(pageSize)
+                .totalElements(claims.getTotalElements())
+                .totalPages(claims.getTotalPages())
+                .last(claims.isLast())
+                .build();
     }
 
     @Override

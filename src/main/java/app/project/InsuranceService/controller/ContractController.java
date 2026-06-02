@@ -4,6 +4,7 @@ import app.project.InsuranceService.dto.request.Contract.ContractCancelRequest;
 import app.project.InsuranceService.dto.request.Contract.ContractCreationRequest;
 import app.project.InsuranceService.dto.response.Auth.ApiResponse;
 import app.project.InsuranceService.dto.response.Contract.ContractResponse;
+import app.project.InsuranceService.dto.response.PageResponse;
 import app.project.InsuranceService.enums.ContractStatus;
 import app.project.InsuranceService.service.Contract.ContractService;
 import jakarta.validation.Valid;
@@ -57,14 +58,14 @@ public class ContractController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<ApiResponse<List<ContractResponse>>> getAllContractsByUserId(@RequestParam(defaultValue = "1") int pageNo,
+    public ResponseEntity<ApiResponse<PageResponse<ContractResponse>>> getAllContractsByUserId(@RequestParam(defaultValue = "1") int pageNo,
                                                              @RequestParam(defaultValue = "5") int pageSize,
                                                              @RequestParam(required = false) ContractStatus status,
                                                              @RequestParam(required = false) String userId){
         log.info("Request to get all contracts by user");
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<List<ContractResponse>>builder()
+                .body(ApiResponse.<PageResponse<ContractResponse>>builder()
                         .code(1000)
                         .message("Get contracts")
                         .result(contractService.getAllContractsByUserId(pageNo,pageSize,status,userId))
@@ -72,13 +73,13 @@ public class ContractController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ContractResponse>>> getAllContracts(@RequestParam(defaultValue = "1") int pageNo,
+    public ResponseEntity<ApiResponse<PageResponse<ContractResponse>>> getAllContracts(@RequestParam(defaultValue = "1") int pageNo,
                                                                                        @RequestParam(defaultValue = "10") int pageSize,
                                                                                        @RequestParam(required = false) ContractStatus status){
         log.info("Request to get all contracts");
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<List<ContractResponse>>builder()
+                .body(ApiResponse.<PageResponse<ContractResponse>>builder()
                         .code(1000)
                         .message("Get all contracts")
                         .result(contractService.getAllContracts(pageNo,pageSize,status))
@@ -86,13 +87,13 @@ public class ContractController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<ApiResponse<List<ContractResponse>>> getAllMyContracts(@RequestParam(defaultValue = "1") int pageNo,
+    public ResponseEntity<ApiResponse<PageResponse<ContractResponse>>> getAllMyContracts(@RequestParam(defaultValue = "1") int pageNo,
                                                                                @RequestParam(defaultValue = "5") int pageSize,
                                                                                @RequestParam(required = false) ContractStatus status){
         log.info("Request to get all my contracts");
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<List<ContractResponse>>builder()
+                .body(ApiResponse.<PageResponse<ContractResponse>>builder()
                         .code(1000)
                         .message("Get all my contracts")
                         .result(contractService.getAllMyContracts(pageNo,pageSize,status))

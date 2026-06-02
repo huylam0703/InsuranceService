@@ -5,6 +5,7 @@ import app.project.InsuranceService.dto.request.Claim.ClaimCreationRequest;
 import app.project.InsuranceService.dto.request.Claim.ClaimUserUpdateRequest;
 import app.project.InsuranceService.dto.response.Auth.ApiResponse;
 import app.project.InsuranceService.dto.response.Claim.ClaimResponse;
+import app.project.InsuranceService.dto.response.PageResponse;
 import app.project.InsuranceService.enums.ClaimStatus;
 import app.project.InsuranceService.enums.ContractStatus;
 import app.project.InsuranceService.service.Claim.ClaimService;
@@ -52,14 +53,14 @@ public class ClaimController {
     }
 
     @GetMapping("/list/customer")
-    public ResponseEntity<ApiResponse<List<ClaimResponse>>> getAllClaimsCustomer(@RequestParam(defaultValue = "1") int pageNo,
-                                                                                 @RequestParam(defaultValue = "5") int pageSize,
-                                                                                 @RequestParam(required = false) ClaimStatus status,
-                                                                                 @RequestParam(required = false) String userId) {
+    public ResponseEntity<ApiResponse<PageResponse<ClaimResponse>>> getAllClaimsCustomer(@RequestParam(defaultValue = "1") int pageNo,
+                                                                                         @RequestParam(defaultValue = "5") int pageSize,
+                                                                                         @RequestParam(required = false) ClaimStatus status,
+                                                                                         @RequestParam(required = false) String userId) {
         log.info("Get all claims customer request");
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<List<ClaimResponse>>builder()
+                .body(ApiResponse.<PageResponse<ClaimResponse>>builder()
                         .code(1000)
                         .message("get all claims customer success")
                         .result(claimService.getAllClaimsCustomer(pageNo, pageSize, status, userId))
@@ -67,13 +68,13 @@ public class ClaimController {
     }
 
     @GetMapping("/list/myClaim")
-    public ResponseEntity<ApiResponse<List<ClaimResponse>>> getAllMyClaim(@RequestParam(defaultValue = "1") int pageNo,
+    public ResponseEntity<ApiResponse<PageResponse<ClaimResponse>>> getAllMyClaim(@RequestParam(defaultValue = "1") int pageNo,
                                                                                  @RequestParam(defaultValue = "5") int pageSize,
                                                                                  @RequestParam(required = false) ClaimStatus status) {
         log.info("Get all my claims request");
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<List<ClaimResponse>>builder()
+                .body(ApiResponse.<PageResponse<ClaimResponse>>builder()
                         .code(1000)
                         .message("get all my claims success")
                         .result(claimService.getAllMyClaims(pageNo, pageSize, status))
@@ -81,13 +82,13 @@ public class ClaimController {
     }
 
     @GetMapping("/list/claim")
-    public ResponseEntity<ApiResponse<List<ClaimResponse>>> getAllClaim(@RequestParam(defaultValue = "1") int pageNo,
+    public ResponseEntity<ApiResponse<PageResponse<ClaimResponse>>> getAllClaim(@RequestParam(defaultValue = "1") int pageNo,
                                                                           @RequestParam(defaultValue = "5") int pageSize,
                                                                           @RequestParam(required = false) ClaimStatus status) {
         log.info("Get all claims request");
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.<List<ClaimResponse>>builder()
+                .body(ApiResponse.<PageResponse<ClaimResponse>>builder()
                         .code(1000)
                         .message("get all claims success")
                         .result(claimService.getAllClaim(pageNo, pageSize, status))

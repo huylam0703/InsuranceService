@@ -2,7 +2,10 @@ package app.project.InsuranceService.service.User.impl;
 
 import app.project.InsuranceService.dto.request.User.UserCreationRequest;
 import app.project.InsuranceService.dto.request.User.UserUpdateRequest;
+import app.project.InsuranceService.dto.response.ClaimReview.ClaimReviewResponse;
+import app.project.InsuranceService.dto.response.PageResponse;
 import app.project.InsuranceService.dto.response.User.UserResponse;
+import app.project.InsuranceService.entity.ClaimReview;
 import app.project.InsuranceService.entity.Role;
 import app.project.InsuranceService.entity.User;
 import app.project.InsuranceService.exception.AppException;
@@ -15,6 +18,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -64,9 +70,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public List<UserResponse> getAllUsers() {
-        return userRepository.findAll().stream()
-                .map(userMapper::toUserResponse).toList();
+    public PageResponse<UserResponse> getAllUsers(int pageNo, int pageSize) {
+
+        if(pageNo > 0){
+            pageNo = pageNo - 1;
+        }
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+
+        Page<User> users;
+
+        users = userRepository.findAll(pageable);
+
+        return PageResponse.<UserResponse>builder()
+                .pageNo(pageNo)
+                .pageSize(pageSize)
+                .totalElements(users.getTotalElements())
+                .totalPages(users.getTotalPages())
+                .last(users.isLast())
+                .build();
     }
 
     @Override
