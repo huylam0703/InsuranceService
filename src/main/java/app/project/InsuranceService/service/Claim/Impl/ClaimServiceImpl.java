@@ -153,7 +153,13 @@ public class ClaimServiceImpl implements ClaimService {
             claims = claimRepository.findByCustomer_Id(userId, pageable);
         }
 
+        List<ClaimResponse> claimResponses = claims.getContent()
+                .stream()
+                .map(claimMapper::toClaimResponse)
+                .toList();
+
         return PageResponse.<ClaimResponse>builder()
+                .content(claimResponses)
                 .pageNo(pageNo)
                 .pageSize(pageSize)
                 .totalElements(claims.getTotalElements())
@@ -184,7 +190,13 @@ public class ClaimServiceImpl implements ClaimService {
             claims = claimRepository.findByCustomer_Id(userId, pageable);
         }
 
+        List<ClaimResponse> claimResponses = claims.getContent()
+                .stream()
+                .map(claimMapper::toClaimResponse)
+                .toList();
+
         return PageResponse.<ClaimResponse>builder()
+                .content(claimResponses)
                 .pageNo(pageNo)
                 .pageSize(pageSize)
                 .totalElements(claims.getTotalElements())
@@ -211,7 +223,13 @@ public class ClaimServiceImpl implements ClaimService {
             claims = claimRepository.findAll(pageable);
         }
 
+        List<ClaimResponse> claimResponses = claims.getContent()
+                .stream()
+                .map(claimMapper::toClaimResponse)
+                .toList();
+
         return PageResponse.<ClaimResponse>builder()
+                .content(claimResponses)
                 .pageNo(pageNo)
                 .pageSize(pageSize)
                 .totalElements(claims.getTotalElements())

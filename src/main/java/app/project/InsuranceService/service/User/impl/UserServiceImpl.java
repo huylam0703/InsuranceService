@@ -27,6 +27,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -82,7 +83,13 @@ public class UserServiceImpl implements UserService {
 
         users = userRepository.findAll(pageable);
 
+        List<UserResponse> userResponses = users.getContent()
+                .stream()
+                .map(userMapper::toUserResponse)
+                .toList();
+
         return PageResponse.<UserResponse>builder()
+                .content(userResponses)
                 .pageNo(pageNo)
                 .pageSize(pageSize)
                 .totalElements(users.getTotalElements())
