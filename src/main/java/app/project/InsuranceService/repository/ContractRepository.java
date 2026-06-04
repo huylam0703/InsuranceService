@@ -17,4 +17,6 @@ public interface ContractRepository extends JpaRepository<Contract, String> {
     Page<Contract> findByContractStatus(ContractStatus contractStatus, Pageable pageable);
 
     long countByContractStatusAndPaymentStatus(ContractStatus contractStatus, ContractPaymentStatus paymentStatus);
+
+    boolean existsByIdAndUser_Username(String contractId, String username);
 }

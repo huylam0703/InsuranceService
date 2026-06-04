@@ -250,9 +250,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     private String generatePaymentCode() {
-        long count = paymentRepository.count() + 1;
-
-        return String.format("PAY%04d", count);
+        return "PAY-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
 
 }

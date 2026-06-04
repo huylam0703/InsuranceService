@@ -42,6 +42,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -65,6 +66,11 @@ public class ClaimServiceImpl implements ClaimService {
 
         Contract contract = contractRepository.findById(claim.getContractId())
                 .orElseThrow(()-> new AppException(ErrorCode.CONTRACT_NOT_FOUND));
+
+        String currentId = getCurrentUser().getId();
+        if(!contract.getUser().getId().equals(currentId)) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
 
         if (contract.getContractStatus() != ContractStatus.ACTIVE) {
             throw new AppException(ErrorCode.CONTRACT_NOT_ACTIVE);
@@ -343,6 +349,15 @@ public class ClaimServiceImpl implements ClaimService {
         Claim claim = claimRepository.findById(claimId)
                 .orElseThrow(()-> new AppException(ErrorCode.CLAIM_NOT_FOUND));
 
+        if (claim.getStatus() != ClaimStatus.APPROVED) {
+            throw new AppException(ErrorCode.CLAIM_MUST_BE_APPROVED_BEFORE_PAID);
+        }
+
+        if (claim.getApprovedAmount() == null
+                || claim.getApprovedAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new AppException(ErrorCode.APPROVED_AMOUNT_INVALID);
+        }
+
         ClaimStatus previousStatus = claim.getStatus();
 
         claim.setStatus(ClaimStatus.PAID);
@@ -398,7 +413,7 @@ public class ClaimServiceImpl implements ClaimService {
         BigDecimal claimAmount = request.getClaimAmount();
 
         //TH1: claimAmount > 80% remainingCoverage
-        BigDecimal threshold80 = remainingCoverage.multiply(BigDecimal.valueOf(80));
+        BigDecimal threshold80 = remainingCoverage.multiply(BigDecimal.valueOf(0.8));
         if(claimAmount.compareTo(threshold80) > 0) {
             score += 30;
         }
@@ -435,9 +450,6 @@ public class ClaimServiceImpl implements ClaimService {
     }
 
     private String generateClaimCode() {
-
-        long count = claimRepository.count() + 1;
-
-        return "CLM-" + LocalDateTime.now().getYear() + "-" + String.format("%04d", count);
+        return "CLM-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
 }
