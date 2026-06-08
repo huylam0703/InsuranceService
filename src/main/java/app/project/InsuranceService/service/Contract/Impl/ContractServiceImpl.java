@@ -31,6 +31,7 @@ import app.project.InsuranceService.service.Contract.ContractService;
 import app.project.InsuranceService.service.Notification.NotificationService;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -72,6 +73,7 @@ public class ContractServiceImpl implements ContractService {
     final Cloudinary cloudinary;
 
     @Override
+    @Transactional
     @PreAuthorize("hasRole('USER')")
     public ContractResponse purchaseContract(ContractCreationRequest request,
                                              MultipartFile vehicleImage) throws IOException {
@@ -199,7 +201,13 @@ public class ContractServiceImpl implements ContractService {
                     );
         }
 
+        List<ContractResponse> contractResponses = contracts.getContent()
+                .stream()
+                .map(contractMapper::toContractResponse)
+                .toList();
+
         return PageResponse.<ContractResponse>builder()
+                .content(contractResponses)
                 .pageNo(pageNo)
                 .pageSize(pageSize)
                 .totalElements(contracts.getTotalElements())
@@ -228,7 +236,13 @@ public class ContractServiceImpl implements ContractService {
             contracts = contractRepository.findAll(pageable);
         }
 
+        List<ContractResponse> contractResponses = contracts.getContent()
+                .stream()
+                .map(contractMapper::toContractResponse)
+                .toList();
+
         return PageResponse.<ContractResponse>builder()
+                .content(contractResponses)
                 .pageNo(pageNo)
                 .pageSize(pageSize)
                 .totalElements(contracts.getTotalElements())
@@ -259,7 +273,13 @@ public class ContractServiceImpl implements ContractService {
             contracts = contractRepository.findByUser_Id(targetUserId, pageable);
         }
 
+        List<ContractResponse> contractResponses = contracts.getContent()
+                .stream()
+                .map(contractMapper::toContractResponse)
+                .toList();
+
         return PageResponse.<ContractResponse>builder()
+                .content(contractResponses)
                 .pageNo(pageNo)
                 .pageSize(pageSize)
                 .totalElements(contracts.getTotalElements())

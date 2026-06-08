@@ -128,6 +128,7 @@ public enum ErrorCode {
     COMMENT_TOO_LONG(1517, "Comments cannot exceed 2000 words", HttpStatus.BAD_REQUEST),
     INVALID_CLAIM_STATUS(1518, "claim status is invalid", HttpStatus.BAD_REQUEST),
     CLAIM_MUST_BE_APPROVED_BEFORE_PAID(1519, "claim must be approved before paid", HttpStatus.BAD_REQUEST),
+    APPROVED_AMOUNT_EXCEED_REMAINING_COVERAGE(1520, "approved amount exceed remaining coverage", HttpStatus.BAD_REQUEST),
 
 
     //payment

@@ -100,7 +100,7 @@ public class ContractController {
                         .build());
     }
 
-    @PutMapping("/{contractId}")
+    @PutMapping("/{contractId}/cancel")
     public ResponseEntity<ApiResponse<ContractResponse>> cancelContract(@PathVariable String contractId){
         log.info("Request to cancel contract");
 
