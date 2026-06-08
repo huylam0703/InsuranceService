@@ -384,6 +384,9 @@ public class ContractServiceImpl implements ContractService {
         if (request.getVehicleDetail() == null) {
             throw new AppException(ErrorCode.VEHICLE_DETAIL_REQUIRED);
         }
+        if(vehicleImage == null || vehicleImage.isEmpty()){
+            throw new AppException(ErrorCode.VEHICLE_IMAGE_REQUIRED);
+        }
 
         String publicValue = generatePublicValue(vehicleImage.getOriginalFilename());
 

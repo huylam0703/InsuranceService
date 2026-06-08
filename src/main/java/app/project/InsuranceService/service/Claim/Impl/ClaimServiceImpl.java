@@ -299,6 +299,15 @@ public class ClaimServiceImpl implements ClaimService {
         Claim claim = claimRepository.findById(claimId)
                 .orElseThrow(()-> new AppException(ErrorCode.CLAIM_NOT_FOUND));
 
+        if (request.getApprovedAmount() == null
+                || request.getApprovedAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new AppException(ErrorCode.APPROVED_AMOUNT_INVALID);
+        }
+
+        if (request.getApprovedAmount().compareTo(claim.getContract().getRemainingCoverage()) > 0) {
+            throw new AppException(ErrorCode.APPROVED_AMOUNT_EXCEED_REMAINING_COVERAGE);
+        }
+
         ClaimStatus previousStatus = claim.getStatus();
 
         claim.setStatus(ClaimStatus.APPROVED);
@@ -409,6 +418,11 @@ public class ClaimServiceImpl implements ClaimService {
         Claim claim = claimRepository.findById(claimId)
                 .orElseThrow(()-> new AppException(ErrorCode.CLAIM_NOT_FOUND));
 
+        if (claim.getStatus() != ClaimStatus.SUBMITTED
+                && claim.getStatus() != ClaimStatus.NEED_MORE_INFO) {
+            throw new AppException(ErrorCode.CLAIM_CLOSED);
+        }
+
         User user = getCurrentUser();
 
         if(!claim.getCustomer().getId().equals(user.getId())) {
@@ -417,7 +431,9 @@ public class ClaimServiceImpl implements ClaimService {
 
         claimMapper.userUpdateClaim(request, claim);
 
-        return claimMapper.toClaimResponse(claim);
+        Claim savedClaim = claimRepository.save(claim);
+
+        return claimMapper.toClaimResponse(savedClaim);
     }
 
 

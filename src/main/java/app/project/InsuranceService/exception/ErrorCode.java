@@ -90,6 +90,8 @@ public enum ErrorCode {
     IS_MANUFACTURE_YEAR_VALID(1350, "Manufacture year cannot be in the future", HttpStatus.BAD_REQUEST),
 
     CONTRACT_NOT_ACTIVE(1360, "Contract is not active", HttpStatus.BAD_REQUEST),
+    VEHICLE_IMAGE_REQUIRED(1361, "vehicle image is required", HttpStatus.BAD_REQUEST),
+
 
     //Policy
     POLICY_NAME(1400, "Policy name is required", HttpStatus.BAD_REQUEST),
