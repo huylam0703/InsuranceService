@@ -27,6 +27,7 @@ import app.project.InsuranceService.service.ClaimReview.ClaimReviewService;
 import app.project.InsuranceService.service.Email.EmailAsyncService;
 import app.project.InsuranceService.service.Email.EmailService;
 import app.project.InsuranceService.service.Email.EmailTemplateService;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -344,6 +345,7 @@ public class ClaimServiceImpl implements ClaimService {
     }
 
     @Override
+    @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public ClaimResponse adminPaidClaim(String claimId) {
         Claim claim = claimRepository.findById(claimId)
@@ -361,11 +363,17 @@ public class ClaimServiceImpl implements ClaimService {
         ClaimStatus previousStatus = claim.getStatus();
 
         claim.setStatus(ClaimStatus.PAID);
-        claim.setApprovedAmount(claim.getApprovedAmount());
         claim.setUpdatedAt(LocalDateTime.now());
         claim.setClosedAt(LocalDateTime.now());
 
+        Contract contract = claim.getContract();
+        if(claim.getApprovedAmount().compareTo(contract.getRemainingCoverage()) > 0){
+            throw new AppException(ErrorCode.APPROVED_AMOUNT_EXCEED_REMAINING_COVERAGE);
+        }
+
         Claim savedClaim = claimRepository.save(claim);
+
+        contract.setRemainingCoverage(contract.getRemainingCoverage().subtract(claim.getApprovedAmount()));
 
         claimReviewService.saveClaimReview(
                 savedClaim,
@@ -397,8 +405,15 @@ public class ClaimServiceImpl implements ClaimService {
     @Override
     @PreAuthorize("isAuthenticated()")
     public ClaimResponse userUpdateClaim(ClaimUserUpdateRequest request, String claimId) {
+
         Claim claim = claimRepository.findById(claimId)
                 .orElseThrow(()-> new AppException(ErrorCode.CLAIM_NOT_FOUND));
+
+        User user = getCurrentUser();
+
+        if(!claim.getCustomer().getId().equals(user.getId())) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
 
         claimMapper.userUpdateClaim(request, claim);
 

@@ -18,5 +18,4 @@ public interface ContractRepository extends JpaRepository<Contract, String> {
 
     long countByContractStatusAndPaymentStatus(ContractStatus contractStatus, ContractPaymentStatus paymentStatus);
 
-    boolean existsByIdAndUser_Username(String contractId, String username);
 }
